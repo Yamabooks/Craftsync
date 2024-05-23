@@ -9,8 +9,8 @@ body {
 }
 
 .game-container {
-    width: 600px; /* 画面の幅を調整 */
-    height: 400px; /* 画面の高さを調整 */
+    width: 100%; /* 画面の幅を調整 */
+    height: 100%; /* 画面の高さを調整 */
     border: 2px solid #333;
     text-align: center;
     padding: 20px;

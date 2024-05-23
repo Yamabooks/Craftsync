@@ -1,13 +1,13 @@
-from flask import Flask, render_template #追加
 
-app = Flask(__name__)
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from flask import Flask, render_template
+
+app = Flask(__name__, static_folder = './templates/images2')
 
 @app.route('/')
-def hello():
-    name = "Hoge"
-    #return name
-    return render_template('page2.html', title='flask test', name=name) #変更
+def index():
+    return render_template('test.html') #htmlファイルの表示
 
-## おまじない
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)

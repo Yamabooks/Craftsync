@@ -1,0 +1,10 @@
+body {
+    background-image: url('../images/page1.png'); /* 背景画像のパスを指定 */
+    background: #d63410;
+  }
+  h1 {
+    color: #B01335;
+  }
+  h2 {
+    color: #2a5f1f;
+  }

@@ -1,0 +1,8 @@
+body {
+    background: #F4E7D3;
+    background-image: url('.templates/static/css/images/ussop.png'); /* 背景画像のパスを指定 */
+  }
+  h1 {
+    color: #B01335;
+  }
+

@@ -1,8 +1,9 @@
-body {
-    background: #F4E7D3;
-    background-image: url('.templates/static/css/images/ussop.png'); /* 背景画像のパスを指定 */
-  }
-  h1 {
-    color: #B01335;
-  }
-
+/* h1タグのスタイルを設定 */
+h1 {
+  font-size: 36px; /* フォントサイズ */
+  color: #dd1010; /* フォントカラー */
+  margin-bottom: 20px; /* 下部の余白 */
+  text-transform: uppercase; /* テキストを大文字に変換 */
+  letter-spacing: 2px; /* 文字間隔 */
+  font-family: 'Arial', sans-serif; /* フォントファミリ */
+}

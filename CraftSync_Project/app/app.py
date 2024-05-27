@@ -10,7 +10,10 @@ app = Flask(__name__, static_folder = './templates/images2')
 def index():
     return render_template('page1.html') #htmlファイルの表示
 
-# [/]
+# [/]へアクセスがあった場合、"page2.html"を返す
+@app.route('/introduction')
+def introduction():
+    return render_template('page2.html')
 
 
 

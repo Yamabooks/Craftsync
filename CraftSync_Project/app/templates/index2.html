@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execute Python Script</title>
+</head>
+<body>
+    <h1>Execute Python Script and Display Graph</h1>
+    <button onclick="executeScript()">Run Script</button>
+    <div id="graph-container"></div>
+    <div id="results"></div>
+
+    <script>
+        function executeScript() {
+            fetch('/run-script')
+                .then(response => response.json())
+                .then(data => {
+                    // グラフの表示
+                    var img = document.createElement('img');
+                    img.src = data.graph_url;
+                    document.getElementById('graph-container').innerHTML = '';
+                    document.getElementById('graph-container').appendChild(img);
+
+                    // 結果の表示
+                    var resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '平均差分: ' + data.average_difference.toFixed(2) + '<br>ランク: ' + data.rank;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
+

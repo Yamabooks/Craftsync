@@ -31,7 +31,7 @@ def demo():
 
 # [/]へアクセスがあった場合、"play.html"を返す
 @app.route('/play')
-def exp():
+def play():
     return render_template('play.html')
 
 # [/]へアクセスがあった場合、"result1.html"を返す

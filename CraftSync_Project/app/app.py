@@ -1,9 +1,8 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template
 
-app = Flask(__name__, static_folder = './templates/images2')
+app = Flask(__name__)
 
 # [/]へアクセスがあった場合に、"page1.html"を返す
 @app.route('/')

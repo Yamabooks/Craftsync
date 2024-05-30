@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Web Game</title>
-</head>
-<body>
-    <h1>Hello</h1>
-
-    <style type="text/css">
-        h1{color: #dd1010;}
-    </style>
+    <link rel="stylesheet" href="css/page2.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/page2.css')}}">
     
+</head>
+
+<body>
+    
+    <div class="header">
+        <h1>Craft Quest</h1>
+        <p>藤田金属株式会社ステージ</p>
+    </div>
+    
+    <div class="main">
+
+        <div class="mokemoke">
+            <img src="{{url_for('static',filename='images/mokemoke.svg')}}" alt="mokemoke" width="300" height="300" >
+        </div>
+
+        <div class="balloon3-left">
+            POINT
+        </div>
+    </div>
+    
+    <div class="button">
+        <a href="page3.html" class="btn">ボタン</a>
+    </div>
 </body>
 </html>

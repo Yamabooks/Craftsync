@@ -14,6 +14,11 @@ def index():
 def introduction():
     return render_template('page2.html')
 
+# [/]へアクセスがあった場合、"page3.html"を返す
+@app.route('/check')
+def check():
+    return render_template('page3.html')
+
 
 
 if __name__ == '__main__':

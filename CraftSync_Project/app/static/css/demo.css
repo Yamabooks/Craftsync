@@ -1,0 +1,23 @@
+body{
+    
+    background-image: url('../images/demo.png'); /* 画像のパスを指定 */
+    background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
+    background-position: top; /* 画像の位置を中央に設定 */
+    /* 他の背景プロパティを設定することもできます */
+}
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: lightblue;
+    padding: 10px 20px; /* 余白を追加してボタンを大きくする */
+    text-decoration: none; /* リンクの下線を消す */
+    color: white; /* 文字色を白にする */
+    font-size: 16px; /* 文字サイズを設定 */
+  }

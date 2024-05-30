@@ -4,65 +4,65 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-# [/]へアクセスがあった場合に、"page1.html"を返す
+# [/]へアクセスがあった場合に、"title.html"を返す
 @app.route('/')
 def index():
-    return render_template('page1.html') #htmlファイルの表示
+    return render_template('title.html') #htmlファイルの表示
 
-# [/]へアクセスがあった場合、"page2.html"を返す
-@app.route('/introduction')
-def introduction():
-    return render_template('page2.html')
+# [/]へアクセスがあった場合、"main.html"を返す
+@app.route('/main')
+def main():
+    return render_template('main.html')
 
-# [/]へアクセスがあった場合、"page3.html"を返す
+# [/]へアクセスがあった場合、"check.html"を返す
 @app.route('/check')
 def check():
-    return render_template('page3.html')
+    return render_template('check.html')
 
-# [/]へアクセスがあった場合、"page4.html"を返す
-@app.route('/select')
-def select():
-    return render_template('page4.html')
+# [/]へアクセスがあった場合、"intro.html"を返す
+@app.route('/introduction')
+def intro():
+    return render_template('intro.html')
 
-# [/]へアクセスがあった場合、"page5.html"を返す
-@app.route('/model')
-def model():
-    return render_template('page5.html')
+# [/]へアクセスがあった場合、"demo.html"を返す
+@app.route('/demonstration')
+def demo():
+    return render_template('demo.html')
 
-# [/]へアクセスがあった場合、"page6.html"を返す
-@app.route('/experience')
-def experience():
-    return render_template('page6.html')
+# [/]へアクセスがあった場合、"play.html"を返す
+@app.route('/play')
+def exp():
+    return render_template('play.html')
 
-# [/]へアクセスがあった場合、"page7.html"を返す
+# [/]へアクセスがあった場合、"result1.html"を返す
 @app.route('/result1')
 def result1():
-    return render_template('page7.html')
+    return render_template('result1.html')
 
-# [/]へアクセスがあった場合、"page8.html"を返す
+# [/]へアクセスがあった場合、"result2.html"を返す
 @app.route('/result2')
 def result2():
-    return render_template('page8.html')
+    return render_template('result2.html')
 
-# [/]へアクセスがあった場合、"page9.html"を返す
+# [/]へアクセスがあった場合、"result3.html"を返す
 @app.route('/result3')
 def result3():
-    return render_template('page9.html')
+    return render_template('result3.html')
 
-# [/]へアクセスがあった場合、"page10.html"を返す
+# [/]へアクセスがあった場合、"result4.html"を返す
 @app.route('/result4')
 def result4():
-    return render_template('page10.html')
+    return render_template('result4.html')
 
-# [/]へアクセスがあった場合、"page11.html"を返す
+# [/]へアクセスがあった場合、"score.html"を返す
 @app.route('/score')
 def score():
-    return render_template('page11.html')
+    return render_template('score.html')
 
-# [/]へアクセスがあった場合、"page12.html"を返す
+# [/]へアクセスがあった場合、"end.html"を返す
 @app.route('/end')
 def end():
-    return render_template('page12.html')
+    return render_template('end.html')
 
 
 if __name__ == '__main__':

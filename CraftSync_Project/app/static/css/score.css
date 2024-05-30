@@ -1,6 +1,6 @@
 body{
     
-    background-image: url('../images/page3.png'); /* 画像のパスを指定 */
+    background-image: url('../images/score.jpg'); /* 画像のパスを指定 */
     background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
     background-position: top; /* 画像の位置を中央に設定 */
     /* 他の背景プロパティを設定することもできます */

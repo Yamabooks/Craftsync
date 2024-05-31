@@ -1,36 +1,35 @@
 body{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+.top{
+  background-color: red;
+  height: 200px; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
 
-h1 {
-  font-size:x-large;
-}
-.header {
-  width: 1200px;
-  margin:0 auto;
-
-  text-align: left;
-  background-color:grey;
-}
-.header h1{
-  margin-bottom: 10px;
-}
-.header p{
-  margin-top: 5px;
+p.header{
+  font-size: 200%;
 }
 .main{
+  background-color: skyblue;
+  height: 450px; 
   display: flex;
   justify-content: center;
   
 }
-
+.bottom{
+  background-color: yellow;
+  height: 130px; 
+}
 .balloon3-left {
   position: relative;
   display: inline-block;
   margin: 1.5em 0 1.5em 15px;
   padding: 0 5px;
-  width: 90px;
-  height: 90px;
+  width: 500px;
+  height: 300px;
   line-height: 90px;
   text-align: center;
   color: #dd1a1a;

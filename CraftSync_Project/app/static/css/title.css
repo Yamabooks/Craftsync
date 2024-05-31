@@ -9,17 +9,6 @@
     justify-content: center;
     align-items: center;
 }
-h1{
-    color:white;
-    font-size: 500%;
-}
-.bottom{
-    background-color: rgba(255, 0, 0, 0);
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 body{
     
     background-image: url('../images/title.jpg'); /* 画像のパスを指定 */
@@ -27,3 +16,31 @@ body{
     background-position: top; /* 画像の位置を中央に設定 */
     /* 他の背景プロパティを設定することもできます */
 }
+h1{
+    color:white;
+    font-size: 500%;
+}
+.bottom{
+    background-color:rgba(255, 0, 0, 0);
+    height: 300px;
+    display: flex;
+    justify-content: center;
+}
+.btn-text-3d {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 70px;
+    color: lightgreen;
+    text-shadow: 
+      0px 8px 4px rgba(0, 100, 0, 0.32),  /* 透明度のある暗い緑 */
+      0px 2px 0px #32a852,               /* 少し暗めの緑 */
+      0px 4px 0px #2a8a46,               /* さらに暗い緑 */
+      0px 6px 0px #206c39;               /* もっと暗い緑 */
+}
+
+.btn-text-3d:active {
+    position: relative;  /* 必要に応じて追加 */
+    top: 7px;
+    text-shadow: none;
+}
+

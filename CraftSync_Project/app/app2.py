@@ -13,8 +13,8 @@ def index():
 @app.route('/run-script')
 def run_script():
     # ファイルパスを設定（ローカルパスを使用）
-    craftsman_file_path = '../app/static/職人データサンプル.xlsx'
-    participant_file_path = 'static/体験者データサンプル.xlsx'
+    craftsman_file_path = os.path.join(app.root_path, "static", "職人データサンプル.xlsx")
+    participant_file_path = os.path.join(app.root_path, "static", "体験者データサンプル.xlsx")
 
     # データを読み込む
     craftsman_data = pd.read_excel(craftsman_file_path)
@@ -92,7 +92,7 @@ def run_script():
     plt.grid(True)
 
     # グラフの保存
-    graph_path = os.path.join('static', 'sample_graph.png')
+    graph_path = os.path.join(app.root_path,'static', 'sample_graph.png')
     plt.savefig(graph_path)
     plt.close()
 

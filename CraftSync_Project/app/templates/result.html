@@ -29,9 +29,9 @@
 <body>
     <h1>結果ページ</h1>
     <button onclick="executeScript()">Run Script</button>
-    <p>平均差分: {{ average_difference }}</p>
-    <p>ランク: {{ rank }}</p>
-    <img src="{{ graph_url }}" alt="グラフ">
+
+    <div id="results"></div>
+    <div id="rank-image-container"></div>
     
     <div class = "button">
         <a href="{{url_for('score')}}" class="btn">次へ進む</a>

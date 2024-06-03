@@ -1,3 +1,10 @@
+body{
+    
+    background-image: url('../images/title.jpg'); /* 画像のパスを指定 */
+    background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
+    background-position: top; /* 画像の位置を中央に設定 */
+    /* 他の背景プロパティを設定することもできます */
+}
 .top{
     background-color: rgba(255, 0, 0, 0);
     height: 300px;
@@ -9,22 +16,15 @@
     justify-content: center;
     align-items: center;
 }
-body{
-    
-    background-image: url('../images/title.jpg'); /* 画像のパスを指定 */
-    background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
-    background-position: top; /* 画像の位置を中央に設定 */
-    /* 他の背景プロパティを設定することもできます */
-}
-h1{
-    color:white;
-    font-size: 500%;
-}
 .bottom{
     background-color:rgba(255, 0, 0, 0);
     height: 280px;
     display: flex;
     justify-content: center;
+}
+h1{
+    color:white;
+    font-size: 500%;
 }
 .btn-text-3d {
     text-decoration: none;

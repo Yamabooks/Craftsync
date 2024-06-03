@@ -98,7 +98,7 @@ def run_script():
     plt.grid(True)
 
     # グラフの保存
-    graph_path = os.path.join(app.root_path,'static', 'sample_graph.png')
+    graph_path = os.path.join(app.root_path,"static", "sample_graph.png")
     plt.savefig(graph_path)
     plt.close()
 
@@ -111,8 +111,8 @@ def run_script():
 
 @app.route('/graph', methods=['GET'])
 def get_graph():
-    graph_path = 'static/sample_graph.png'
-    return send_file(graph_path, mimetype='image/png')
+    graph_path = session['graph_url']
+    return send_file(graph_path)
 
 @app.route('/rank-image', methods=['GET'])
 def get_rank_image():

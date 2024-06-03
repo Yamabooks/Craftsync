@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, session, jsonify
+from flask import Flask, render_template, jsonify, session, send_file, request
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 import os
+import io
 
 app = Flask(__name__)
 app.secret_key='admin_secret_key'
@@ -52,7 +55,12 @@ def result():
 # [/]へアクセスがあった場合、"score.html"を返す
 @app.route('/score')
 def score():
-    return render_template('score.html')
+
+    graph_url = session.get('graph_url')
+    average_difference = session.get('average_difference')
+    rank = session.get('rank')
+
+    return render_template('score.html', graph_url=session.get('graph_url'), average_difference=session.get('average_difference'), rank=session.get('rank'))
 
 # [/]へアクセスがあった場合、"end.html"を返す
 @app.route('/end')
@@ -151,6 +159,12 @@ def run_script():
     session['rank'] = final_rank(average_difference_seconds)
 
     return jsonify({'message': 'スクリプトが実行されました。', 'graph_url': graph_path, 'average_difference': average_difference_seconds, 'rank': final_rank(average_difference_seconds)})
+
+@app.route('/rank-image', methods=['GET'])
+def get_rank_image():
+    rank = request.args.get('rank')
+    image_path = f'static/image{rank}.png'
+    return send_file(image_path, mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

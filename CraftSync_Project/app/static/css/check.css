@@ -5,10 +5,29 @@ body{
     background-position: top; /* 画像の位置を中央に設定 */
     /* 他の背景プロパティを設定することもできます */
 }
+.top{
+  background-color: rgba(255, 0, 0, 0);
+  height: 200px; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.main{
+  background-color: rgba(255, 0, 0, 0);
+  height: 450px; 
+  display: flex;
+  justify-content: center;
+}
+
+.bottom{
+  background-color: rgba(255, 0, 0, 0);
+  height: 130px; 
+}
 .button {
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 30px;
   }
   .btn {
     display: flex;

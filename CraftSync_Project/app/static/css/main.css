@@ -1,54 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&display=swap');
+
 body{
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-image: url('../images/main.png');
+  background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
+  background-position: top; /* 画像の位置を中央に設定 */
 }
 .top{
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   height: 200px; 
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  line-height: 20px;
 }
-
-p.header{
-  font-size: 200%;
+.header{
+  font-family: 'Caveat', cursive;
+  font-size: 40px;
 }
 .main{
-  background-color: skyblue;
+  background-color:rgba(255, 0, 0, 0);
   height: 450px; 
   display: flex;
   justify-content: center;
   
 }
-.bottom{
-  background-color: yellow;
-  height: 130px; 
+.mokemoke{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.balloon3-left {
-  position: relative;
-  display: inline-block;
-  margin: 1.5em 0 1.5em 15px;
-  padding: 0 5px;
-  width: 500px;
-  height: 300px;
-  line-height: 90px;
-  text-align: center;
-  color: #dd1a1a;
-  font-size: 20px;
-  font-weight: bold;
-  background: #ffcc75;
-  border-radius: 50%;
-  box-sizing: border-box;
+img{
+  width: 400px;
+  height: 370px;
+}
+.box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.text{
+  font-family: 'Sacramento',cursive;
+  font-size: 24px;
+  display: flex;
+  justify-content: center; /* 横方向の中央揃え */
+  align-items: center; /* 縦方向の中央揃え */
+  width: 300px; /* div 要素の幅 */
+  height: 250px; /* div 要素の高さ */
 }
 
-.balloon3-left:before {
+.balloon2-left {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5em 0 1.5em 15px;
+  padding: 7px 10px;
+  width: 500px;
+  height: 300px;
+  color: #555;
+  font-size: 16px;
+  background: #FFF;
+  border: solid 7px #555;
+  box-sizing: border-box;
+}
+.balloon2-left:before {
   content: "";
   position: absolute;
   top: 50%;
-  left: -25px;
-  margin-top: -15px;
-  border: 15px solid transparent;
-  border-right: 15px solid #ffcc75;
-  z-index: 0;
+  left: -24px;
+  margin-top: -12px;
+  border: 12px solid transparent;
+  border-right: 12px solid #FFF;
+  z-index: 2;
+}
+.balloon2-left:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  margin-top: -14px;
+  border: 14px solid transparent;
+  border-right: 14px solid #555;
+  z-index: 1;
+}
+.balloon2-left p {
+  margin: 0;
+  padding: 0;
+}
+
+.bottom{
+  background-color: rgba(255, 0, 0, 0);
+  height: 130px; 
 }
 .button {
   display: flex;
@@ -64,5 +107,5 @@ p.header{
   padding: 10px 20px; /* 余白を追加してボタンを大きくする */
   text-decoration: none; /* リンクの下線を消す */
   color: white; /* 文字色を白にする */
-  font-size: 16px; /* 文字サイズを設定 */
+  font-size: 20px; /* 文字サイズを設定 */
 }

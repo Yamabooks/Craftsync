@@ -5,6 +5,20 @@ body{
   background-position: top; /* 画像の位置を中央に設定 */
   /* 他の背景プロパティを設定することもできます */
 }
+.top{
+  height: 200px; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.main{
+  height: 450px; 
+  display: flex;
+  justify-content: center;
+}
+.bottom{
+  height: 130px;  
+}
 .button {
   display: flex;
   justify-content: center;

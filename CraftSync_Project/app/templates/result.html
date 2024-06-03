@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>result</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/result.css')}}">
+
+    <script>
+        function runScript(event) {
+            // デフォルトのリンク動作を一時的に防ぐ
+            event.preventDefault();
+
+            fetch('/run-script')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message); // コンソールにメッセージを表示
+
+                    // スクリプトの実行が終わったらリンク先へ移動
+                    window.location.href = event.target.href;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</head>
+<body>
+    <h1>結果ページ</h1>
+
+    <h1>スクリプトを実行</h1>
+    <button onclick="runScript(event)">スクリプトを実行</button>
+
+    <p>平均差分: {{ average_difference }}</p>
+    <p>ランク: {{ rank }}</p>
+    <img src="{{ graph_url }}" alt="グラフ">
+    
+    <div class = "button">
+        <a href="{{url_for('score')}}" class="btn">次へ進む</a>
+    </div>
+</body>
+</html>

@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, session, jsonify
 import pandas as pd
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 import os
 
 app = Flask(__name__)
+app.secret_key='admin_secret_key'
 
 # [/]へアクセスがあった場合に、"title.html"を返す
 @app.route('/')
@@ -38,25 +39,15 @@ def demo():
 def play():
     return render_template('play.html')
 
-# [/]へアクセスがあった場合、"result1.html"を返す
-@app.route('/result1')
-def result1():
-    return render_template('result1.html')
+# [/]へアクセスがあった場合、"result.html"を返す
+@app.route('/result')
+def result():
+    # セッションからデータを取得
+    graph_url = session.get('graph_url')
+    average_difference = session.get('average_difference')
+    rank = session.get('rank')
 
-# [/]へアクセスがあった場合、"result2.html"を返す
-@app.route('/result2')
-def result2():
-    return render_template('result2.html')
-
-# [/]へアクセスがあった場合、"result3.html"を返す
-@app.route('/result3')
-def result3():
-    return render_template('result3.html')
-
-# [/]へアクセスがあった場合、"result4.html"を返す
-@app.route('/result4')
-def result4():
-    return render_template('result4.html')
+    return render_template('result.html', graph_url=graph_url, average_difference=average_difference, rank=rank)
 
 # [/]へアクセスがあった場合、"score.html"を返す
 @app.route('/score')
@@ -154,7 +145,12 @@ def run_script():
     plt.savefig(graph_path)
     plt.close()
 
-    return jsonify({'graph_url': graph_path, 'average_difference': average_difference_seconds, 'rank': final_rank(average_difference_seconds)})
+    # セッションにデータを保存
+    session['graph_url'] = graph_path
+    session['average_difference'] = average_difference_seconds
+    session['rank'] = final_rank(average_difference_seconds)
+
+    return jsonify({'message': 'スクリプトが実行されました。', 'graph_url': graph_path, 'average_difference': average_difference_seconds, 'rank': final_rank(average_difference_seconds)})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Graph</title>
+</head>
+<body>
+    <h1>3ページ目: グラフの表示</h1>
+    <div id="graph-container">
+        <img id="graph-img" src="" alt="Graph Image">
+    </div>
+
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const graphUrl = urlParams.get('graph_url');
+            document.getElementById('graph-img').src = graphUrl;
+        };
+    </script>
+</body>
+</html>

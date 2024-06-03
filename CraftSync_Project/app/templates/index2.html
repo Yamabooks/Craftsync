@@ -6,29 +6,40 @@
     <title>Execute Python Script</title>
 </head>
 <body>
-    <h1>Execute Python Script and Display Graph</h1>
+    <h1>1ページ目: データ処理の実行</h1>
     <button onclick="executeScript()">Run Script</button>
-    <div id="graph-container"></div>
     <div id="results"></div>
+    <div id="rank-image-container"></div>
+    <button id="next-page-button" style="display:none;" onclick="goToNextPage()">次のページへ</button>
 
     <script>
         function executeScript() {
             fetch('/run-script')
                 .then(response => response.json())
                 .then(data => {
-                    // グラフの表示
-                    var img = document.createElement('img');
-                    img.src = data.graph_url;
-                    document.getElementById('graph-container').innerHTML = '';
-                    document.getElementById('graph-container').appendChild(img);
-
                     // 結果の表示
                     var resultsDiv = document.getElementById('results');
                     resultsDiv.innerHTML = '平均差分: ' + data.average_difference.toFixed(2) + '<br>ランク: ' + data.rank;
+
+                    // ランク画像の表示
+                    var rankImg = document.createElement('img');
+                    rankImg.src = '/rank-image?rank=' + data.rank;
+                    document.getElementById('rank-image-container').innerHTML = '';
+                    document.getElementById('rank-image-container').appendChild(rankImg);
+
+                    // 次のページに行くボタンを表示
+                    var nextPageButton = document.getElementById('next-page-button');
+                    nextPageButton.style.display = 'block';
+                    nextPageButton.setAttribute('data-graph-url', data.graph_url);
                 })
                 .catch(error => console.error('Error:', error));
+        }
+
+        function goToNextPage() {
+            var nextPageButton = document.getElementById('next-page-button');
+            var graphUrl = nextPageButton.getAttribute('data-graph-url');
+            window.location.href = '/graph-page?graph_url=' + encodeURIComponent(graphUrl);
         }
     </script>
 </body>
 </html>
-

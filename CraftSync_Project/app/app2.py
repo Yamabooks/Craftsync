@@ -1,10 +1,14 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, session, send_file, request
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 import os
+import io
 
 app = Flask(__name__)
+app.secret_key='admin_key'
 
 @app.route('/')
 def index():
@@ -80,6 +84,8 @@ def run_script():
         else:
             return 'D'
 
+    final_rank_value = final_rank(average_difference_seconds)
+
     # データをプロット
     plt.figure(figsize=(12, 6))
     plt.plot(combined_data_seconds.index, combined_data_seconds['Craftsman_num'], label='職人', color='blue')
@@ -96,7 +102,27 @@ def run_script():
     plt.savefig(graph_path)
     plt.close()
 
-    return jsonify({'graph_url': graph_path, 'average_difference': average_difference_seconds, 'rank': final_rank(average_difference_seconds)})
+    # セッションにデータを保存
+    session['graph_url'] = graph_path
+    session['average_difference'] = average_difference_seconds
+    session['rank'] = final_rank(average_difference_seconds)
+
+    return jsonify({'graph_url': graph_path, 'average_difference': average_difference_seconds, 'rank': final_rank_value})
+
+@app.route('/graph', methods=['GET'])
+def get_graph():
+    graph_path = 'static/sample_graph.png'
+    return send_file(graph_path, mimetype='image/png')
+
+@app.route('/rank-image', methods=['GET'])
+def get_rank_image():
+    rank = request.args.get('rank')
+    image_path = f'static/image{rank}.png'
+    return send_file(image_path, mimetype='image/png')
+
+@app.route('/graph-page')
+def graph_page():
+    return render_template('graph_page.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

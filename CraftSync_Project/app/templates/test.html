@@ -3,75 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Fixed Layout</title>
-    <style>
-        /* 全体のスタイル設定 */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* スクロールバーを隠す */
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0; /* 任意の背景色 */
-        }
-
-        .container {
-            text-align: center;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        #graph-container {
-            margin-top: 20px;
-            width: 100%;
-            height: 60%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffffff; /* 任意の背景色 */
-        }
-
-        #results {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Execute Python Script and Display Graph</h1>
-        <button onclick="executeScript()">Run Script</button>
-        <div id="graph-container"></div>
-        <div id="results"></div>
-    </div>
+    <title>Execute Python Script</title>
 
     <script>
-        function executeScript() {
+        document.getElementById('next-page-link').addEventListener('click', function(event) {
+            event.preventDefault(); // デフォルトのクリック動作を無効化
+            
+            // /runscriptにリクエストを送信してスクリプトを実行
             fetch('/run-script')
                 .then(response => response.json())
                 .then(data => {
-                    // グラフの表示
-                    var img = document.createElement('img');
-                    img.src = data.graph_url;
-                    document.getElementById('graph-container').innerHTML = '';
-                    document.getElementById('graph-container').appendChild(img);
-
-                    // 結果の表示
-                    var resultsDiv = document.getElementById('results');
-                    resultsDiv.innerHTML = '平均差分: ' + data.average_difference.toFixed(2) + '<br>ランク: ' + data.rank;
+                    // ページ遷移
+                    window.location.href = "{{ url_for('test2') }}"; // test2ルートへのURLに置き換える
                 })
                 .catch(error => console.error('Error:', error));
-        }
+        });
     </script>
+
+</head>
+<body>
+    <h1>1ページ目: データ処理の実行</h1>
+    <button onclick="executeScript()">Run Script</button>
+
+    <div id="results"></div>
+    <div id="rank-image-container"></div>
+
+    <div class = "button">
+        <a href="test2.html" class="btn" id="next-page-link">次へ進む</a>
+    </div>
+
 </body>
 </html>

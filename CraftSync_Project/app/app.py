@@ -47,7 +47,7 @@ def result():
     average_difference = session.get('average_difference')
     rank = session.get('rank')
 
-    return render_template('result.html', graph_url=graph_url, average_difference=average_difference, rank=rank)
+    return render_template('result.html', graph_url=session.get('graph_url'), average_difference=session.get('average_difference'), rank=session.get('rank'))
 
 # [/]へアクセスがあった場合、"score.html"を返す
 @app.route('/score')

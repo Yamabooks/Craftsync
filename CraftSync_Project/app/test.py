@@ -1,3 +1,4 @@
+import numpy
 from flask import Flask, render_template, jsonify, session, send_file, request
 import pandas as pd
 import matplotlib.pyplot as plt

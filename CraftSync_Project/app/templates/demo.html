@@ -7,7 +7,36 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/demo.css')}}">
 </head>
 <body>
-    <h1>お手本動画</h1>
+    <div class="top">
+        <h1>【取り付け】★★☆☆☆</h1>
+    </div>
+
+    <div class="main">
+        <div class="video">
+            <video width="500px" height="400px" src="{{url_for('static',filename='videos/demo_movie.mp4')}}" alt="デモ動画" loop autoplay muted controls>
+            </video>
+        </div>
+
+        <div class="left">
+            <div class="box">
+                <div class="balloon2-left">
+                    <div class="text">
+                        こんにちは！<br>
+                        僕は「もけもけ」。<br>
+                        あなたが職人になるための<br>
+                        お手伝いをしに来たよ！<br>
+                        よろしくね！
+                    </div>
+                </div>
+            </div>
+
+            <div class="mokemoke">
+                <img src="{{url_for('static',filename='images/mokemoke_leftup.png')}}" alt="mokemoke" width="300" height="300" >
+            </div>
+        </div>
+
+    </div>
+
     <div class = "button">
         <a href="{{url_for('play')}}" class="btn">次へ進む</a>
     </div>

@@ -7,10 +7,15 @@ body{
   height: 100vh;
 }
 .top{
-  height: 20vh;
+  background-color: rgba(255, 0, 0, 0);
+  height: 15vh;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .main{
-  height: 50vh;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,48 +29,54 @@ img{
   justify-content: center;
   align-items: center;
 }
-.balloon2-left {
+.text{
+  text-align: center;
+  font-size: 30px;
+}
+.balloon2 {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1.5em 0 1.5em 15px;
+  display: inline-block;
+  margin: 1.5em 0;
   padding: 7px 10px;
-  width: 500px;
-  height: 300px;
+  min-width: 120px;
+  max-width: 100%;
   color: #555;
   font-size: 16px;
   background: #FFF;
-  border: solid 7px #555;
+  border: solid 3px #555;
   box-sizing: border-box;
 }
-.balloon2-left:before {
+
+.balloon2:before {
   content: "";
   position: absolute;
-  top: 50%;
-  left: -24px;
-  margin-top: -12px;
+  bottom: -24px;
+  left: 50%;
+  margin-left: -15px;
   border: 12px solid transparent;
-  border-right: 12px solid #FFF;
+  border-top: 12px solid #FFF;
   z-index: 2;
 }
-.balloon2-left:after {
+
+.balloon2:after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: -30px;
-  margin-top: -14px;
+  bottom: -30px;
+  left: 50%;
+  margin-left: -17px;
   border: 14px solid transparent;
-  border-right: 14px solid #555;
+  border-top: 14px solid #555;
   z-index: 1;
 }
-.balloon2-left p {
+
+.balloon2 p {
   margin: 0;
   padding: 0;
 }
 
 .bottom{
-  height: 30vh;
+  background-color: rgba(255, 0, 0, 0);
+  height: 15vh;
 }
 
 .button {

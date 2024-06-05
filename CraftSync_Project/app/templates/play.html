@@ -5,22 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>play</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/play.css')}}">
-
+    
+    
 </head>
+
 <body>
     <div class="top">
-        <h1>いざ実践　カウントダウン</h1>
+        <h1>【取り付け】★★☆☆☆</h1>
     </div>
 
     <div class="main">
+        <div class="count">
+            <div class="timer" id="timer">5</div>
+            <div class="button-container">
+                <button id="startButton">Start</button>
 
+            </div>
+        </div>
 
+        <div class="left">
+            <div class="box">
+                <div class="balloon2">
+                    <div class="text">
+                        実際にやってみよう！<br>
+                        時間はX秒！<br>
+                        カウントダウンを見てね<br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mokemoke">
+                <img src="{{url_for('static',filename='images/smile_mokemoke.png')}}" alt="mokemoke" width="300" height="300" >
+            </div>
+        </div>
     </div>
 
     <div class="bottom">
-        <div class = "button">
-            <a href="{{url_for('result')}}" class="btn">次へ進む</a>
+        <div class = "button_container" id="nextContainer" style="display: none;">
+            <div class="button">
+                <a href="{{url_for('result')}}" class="btn">次へ進む</a>
+            </div>    
         </div>
     </div>
+
+    <script>
+        let initialCountdown = 5;
+        let secondaryCountdown = 10;
+        let timerElement = document.getElementById('timer');
+        let startButton = document.getElementById('startButton');
+
+        function startSecondaryCountdown() {
+            let countdown = secondaryCountdown;
+            let secondaryInterval = setInterval(() => {
+                timerElement.innerText = countdown;
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(secondaryInterval);
+                    timerElement.innerText = 'END';
+                    nextContainer.style.display='block';
+                }
+            }, 1000);
+        }
+
+        function startInitialCountdown() {
+            let countdown = initialCountdown;
+            let initialInterval = setInterval(() => {
+                timerElement.innerText = countdown;
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(initialInterval);
+                    timerElement.innerText = 'Start';
+                    setTimeout(() => {
+                        startSecondaryCountdown();
+                    }, 1000); // ここで1秒待ってから次のカウントダウンを開始します
+                }
+            }, 1000);
+        }
+
+        startButton.addEventListener('click', () => {
+            startButton.style.display = 'none'; // ボタンを非表示にする
+            startInitialCountdown();
+        });
+    </script>
+
 </body>
 </html>

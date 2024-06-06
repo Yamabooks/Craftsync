@@ -3,12 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check</title>
+    <title>Video Playback with Custom Play Button</title>
+    <style>
+        #playButton {
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Session Data</h1>
-    <p>Graph URL: {{ graph_url }}</p>
-    <p>Average Difference: {{ average_difference }}</p>
-    <p>Rank: {{ rank }}</p>
+    <video id="myVideo" width="320" height="240">
+        <source src="{{url_for('static',filename='videos/demo.mp4')}}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <button id="playButton">再生</button>
+
+    <p id="currentTimeDisplay">再生開始時刻: --</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let video = document.getElementById('myVideo');
+            let playButton = document.getElementById('playButton');
+            let currentTimeDisplay = document.getElementById('currentTimeDisplay');
+
+            playButton.addEventListener('click', function() {
+                video.play();
+                
+                let startTime = new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                
+                currentTimeDisplay.textContent = '再生開始時刻: ' + startTime;
+            });
+        });
+    </script>
 </body>
 </html>

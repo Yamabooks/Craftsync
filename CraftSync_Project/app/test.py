@@ -15,7 +15,7 @@ def index():
     session.pop('average_difference', None)
     session.pop('rank', None)
 
-    return render_template('test.html')
+    return render_template('test2.html')
 
 @app.route('/test2')
 def test2():

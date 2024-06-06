@@ -3,86 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer Example</title>
+    <title>Loading Gauge</title>
     <style>
-        .btn-text-3d {
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 70px;
-            color: navajowhite;
-            text-shadow: 
-              0px 8px 4px rgba(205, 175, 149, 0.32),  /* 透明度のある暗いnavajowhite */
-              0px 2px 0px #ffdead,                  /* 少し暗めの#ffdead */
-              0px 4px 0px #deb887,                  /* さらに暗いnavajowhite */
-              0px 6px 0px #cd853f;                  /* もっと暗いnavajowhite */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
 
-        .btn-text-3d:active {
-            position: relative;  /* 必要に応じて追加 */
-            top: 7px;
-            text-shadow: none;
+        .loader-container {
+            text-align: center;
         }
 
-        .btn {
+        progress {
+            width: 200%;
+            height: 30px;
+        }
+
+        #loadingText {
+            display: block;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        #resultText {
+            display: none;
+            margin-top: 20px;
             font-size: 20px;
-            padding: 10px 20px;
-            background-color: #32a852;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background-color: #2a8a46;
         }
     </style>
 </head>
 <body>
-    <div id="timer" class="btn-text-3d">Ready</div>
-    <a href="javascript:void(0);" id="startButton" class="btn btn__3d-border">Start</a>
-    <div id="nextContainer" style="display: none;">Next Content</div>
-
+    <div class="loader-container" id="loader" style="display: block;">
+        <p id="loadingStatus">結果を測定中</p>
+        <progress id="loadingBar" value="0" max="100"></progress>
+        <span id="loadingText">Loading... 0%</span>
+        <button id="showResultButton" onclick="showResult()" style="display: none;">結果を表示</button>
+    </div>
+    <div class="text" id="result" style="display: none;">
+        これは内容です
+    </div>
     <script>
-        let initialCountdown = 5;
-        let secondaryCountdown = 10;
-        let timerElement = document.getElementById('timer');
-        let startButton = document.getElementById('startButton');
-        let nextContainer = document.getElementById('nextContainer');
+        document.addEventListener('DOMContentLoaded', function() {
+            let loadingBar = document.getElementById('loadingBar');
+            let loadingText = document.getElementById('loadingText');
+            let loadingStatus = document.getElementById('loadingStatus');
+            let showResultButton = document.getElementById('showResultButton');
+            let resultText = document.getElementById('resultText');
+            let progress = 0;
 
-        function startSecondaryCountdown() {
-            let countdown = secondaryCountdown;
-            let secondaryInterval = setInterval(() => {
-                timerElement.innerText = `残り${countdown}秒`;
-                countdown--;
-                if (countdown < 0) {
-                    clearInterval(secondaryInterval);
-                    timerElement.innerText = 'END';
-                    nextContainer.style.display = 'block';
+            function updateLoading() {
+                if (progress < 100) {
+                    progress += 1;
+                    loadingBar.value = progress;
+                    loadingText.textContent = `Loading... ${progress}%`;
+                    setTimeout(updateLoading, 100); // Adjust the interval as needed
+                } else {
+                    loadingText.textContent = 'Complete!';
+                    loadingStatus.textContent = ''; // Hide loading status text
+                    showResultButton.style.display = 'block'; // Show result button
                 }
-            }, 1000);
-        }
+            }
 
-        function startInitialCountdown() {
-            let countdown = initialCountdown;
-            let initialInterval = setInterval(() => {
-                timerElement.innerText = `開始まで${countdown}秒`;
-                countdown--;
-                if (countdown < 0) {
-                    clearInterval(initialInterval);
-                    timerElement.innerText = 'Start';
-                    setTimeout(() => {
-                        startSecondaryCountdown();
-                    }, 1000); // ここで1秒待ってから次のカウントダウンを開始します
-                }
-            }, 1000);
-        }
-
-        startButton.addEventListener('click', () => {
-            startButton.style.display = 'none'; // ボタンを非表示にする
-            startInitialCountdown();
+            updateLoading();
         });
+
+        function showResult() {
+            loader.style.display = 'none';
+            result.style.display = 'block'; // Show result text
+        }
+
+        function generateRandomString() {
+            let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 10; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
     </script>
 </body>
 </html>

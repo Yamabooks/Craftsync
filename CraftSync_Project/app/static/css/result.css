@@ -1,6 +1,6 @@
 body{
     
-  background-image: url('../images/main.jpg'); /* 画像のパスを指定 */
+  background-image: url('../images/main.png'); /* 画像のパスを指定 */
   background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
   background-position: top; /* 画像の位置を中央に設定 */
   height: 100vh;

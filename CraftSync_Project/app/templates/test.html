@@ -1,36 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Execute Python Script</title>
+    <title>Timer Example</title>
+    <style>
+        .btn-text-3d {
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 70px;
+            color: navajowhite;
+            text-shadow: 
+              0px 8px 4px rgba(205, 175, 149, 0.32),  /* 透明度のある暗いnavajowhite */
+              0px 2px 0px #ffdead,                  /* 少し暗めの#ffdead */
+              0px 4px 0px #deb887,                  /* さらに暗いnavajowhite */
+              0px 6px 0px #cd853f;                  /* もっと暗いnavajowhite */
+        }
 
-    <script>
-        document.getElementById('next-page-link').addEventListener('click', function(event) {
-            event.preventDefault(); // デフォルトのクリック動作を無効化
-            
-            // /runscriptにリクエストを送信してスクリプトを実行
-            fetch('/run-script')
-                .then(response => response.json())
-                .then(data => {
-                    // ページ遷移
-                    window.location.href = "{{ url_for('test2') }}"; // test2ルートへのURLに置き換える
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    </script>
+        .btn-text-3d:active {
+            position: relative;  /* 必要に応じて追加 */
+            top: 7px;
+            text-shadow: none;
+        }
 
+        .btn {
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: #32a852;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #2a8a46;
+        }
+    </style>
 </head>
 <body>
-    <h1>1ページ目: データ処理の実行</h1>
-    <button onclick="executeScript()">Run Script</button>
+    <div id="timer" class="btn-text-3d">Ready</div>
+    <a href="javascript:void(0);" id="startButton" class="btn btn__3d-border">Start</a>
+    <div id="nextContainer" style="display: none;">Next Content</div>
 
-    <div id="results"></div>
-    <div id="rank-image-container"></div>
+    <script>
+        let initialCountdown = 5;
+        let secondaryCountdown = 10;
+        let timerElement = document.getElementById('timer');
+        let startButton = document.getElementById('startButton');
+        let nextContainer = document.getElementById('nextContainer');
 
-    <div class = "button">
-        <a href="test2.html" class="btn" id="next-page-link">次へ進む</a>
-    </div>
+        function startSecondaryCountdown() {
+            let countdown = secondaryCountdown;
+            let secondaryInterval = setInterval(() => {
+                timerElement.innerText = `残り${countdown}秒`;
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(secondaryInterval);
+                    timerElement.innerText = 'END';
+                    nextContainer.style.display = 'block';
+                }
+            }, 1000);
+        }
 
+        function startInitialCountdown() {
+            let countdown = initialCountdown;
+            let initialInterval = setInterval(() => {
+                timerElement.innerText = `開始まで${countdown}秒`;
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(initialInterval);
+                    timerElement.innerText = 'Start';
+                    setTimeout(() => {
+                        startSecondaryCountdown();
+                    }, 1000); // ここで1秒待ってから次のカウントダウンを開始します
+                }
+            }, 1000);
+        }
+
+        startButton.addEventListener('click', () => {
+            startButton.style.display = 'none'; // ボタンを非表示にする
+            startInitialCountdown();
+        });
+    </script>
 </body>
 </html>

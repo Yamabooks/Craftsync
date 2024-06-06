@@ -21,6 +21,9 @@ body{
   align-items: center;
 }
 
+.count{
+  margin: 20px;
+}
 .timer {
   font-size: 2em;
   text-align: center;
@@ -32,15 +35,15 @@ body{
   margin-top: 20px;
 }
 
-img{
-  width: 400px;
-  height: 370px;
+.left{
+  margin: 20px;
 }
 .box{
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .text{
   text-align: center;
   font-size: 30px;
@@ -86,6 +89,10 @@ img{
   padding: 0;
 }
 
+.mokemoke{
+  width: 400px;
+  height: 300px;
+}
 
 .bottom{
   height: 15vh;

@@ -20,15 +20,22 @@ body{
   justify-content: center;
   align-items: center;
 }
+.video{
+  margin: 20px;
+}
 img{
   width: 400px;
   height: 370px;
+}
+.left{
+  margin: 20px;
 }
 .box{
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .text{
   text-align: center;
   font-size: 30px;
@@ -72,6 +79,10 @@ img{
 .balloon2 p {
   margin: 0;
   padding: 0;
+}
+.mokemoke{
+  width: 400px;
+  height: 300px;
 }
 
 .bottom{

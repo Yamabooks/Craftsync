@@ -16,11 +16,9 @@
 
     <div class="main">
         <div class="count">
-            <div class="timer" id="timer">5</div>
-            <div class="button-container">
-                <button id="startButton">Start</button>
-
-            </div>
+            <div id="timer" class="btn-text-3d">Ready</div>
+            <a href="javascript:void(0);" id="startButton" class="btn btn__3d-border">Start</a>
+            <div id="nextContainer" style="display: none;">Next Content</div>
         </div>
 
         <div class="left">
@@ -35,7 +33,7 @@
             </div>
 
             <div class="mokemoke">
-                <img src="{{url_for('static',filename='images/smile_mokemoke.png')}}" alt="mokemoke" width="300" height="300" >
+                <img src="{{url_for('static',filename='images/smile_mokemoke.png')}}" alt="mokemoke" class="mokemoke" >
             </div>
         </div>
     </div>
@@ -53,16 +51,17 @@
         let secondaryCountdown = 10;
         let timerElement = document.getElementById('timer');
         let startButton = document.getElementById('startButton');
+        let nextContainer = document.getElementById('nextContainer');
 
         function startSecondaryCountdown() {
             let countdown = secondaryCountdown;
             let secondaryInterval = setInterval(() => {
-                timerElement.innerText = countdown;
+                timerElement.innerText = `残り${countdown}秒`;
                 countdown--;
                 if (countdown < 0) {
                     clearInterval(secondaryInterval);
                     timerElement.innerText = 'END';
-                    nextContainer.style.display='block';
+                    nextContainer.style.display = 'block';
                 }
             }, 1000);
         }
@@ -70,7 +69,7 @@
         function startInitialCountdown() {
             let countdown = initialCountdown;
             let initialInterval = setInterval(() => {
-                timerElement.innerText = countdown;
+                timerElement.innerText = `開始まで${countdown}秒`;
                 countdown--;
                 if (countdown < 0) {
                     clearInterval(initialInterval);

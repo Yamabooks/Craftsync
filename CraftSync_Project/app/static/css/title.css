@@ -39,12 +39,12 @@ h1{
     text-decoration: none;
     font-weight: bold;
     font-size: 70px;
-    color: lightgreen;
+    color: navajowhite;
     text-shadow: 
-      0px 8px 4px rgba(0, 100, 0, 0.32),  /* 透明度のある暗い緑 */
-      0px 2px 0px #32a852,               /* 少し暗めの緑 */
-      0px 4px 0px #2a8a46,               /* さらに暗い緑 */
-      0px 6px 0px #206c39;               /* もっと暗い緑 */
+      0px 8px 4px rgba(205, 175, 149, 0.32),  /* 透明度のある暗いnavajowhite */
+      0px 2px 0px #ffdead,                  /* 少し暗めの#ffdead */
+      0px 4px 0px #deb887,                  /* さらに暗いnavajowhite */
+      0px 6px 0px #cd853f;                  /* もっと暗いnavajowhite */
 }
 
 .btn-text-3d:active {
@@ -52,4 +52,5 @@ h1{
     top: 7px;
     text-shadow: none;
 }
+
 

@@ -1,89 +1,59 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading Gauge</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-
-        .loader-container {
-            text-align: center;
-        }
-
-        progress {
-            width: 200%;
-            height: 30px;
-        }
-
-        #loadingText {
-            display: block;
-            margin-top: 10px;
-            font-size: 18px;
-        }
-
-        #resultText {
-            display: none;
-            margin-top: 20px;
-            font-size: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>項目の選択と表示</title>
+<style>
+    .container {
+        display: flex;
+    }
+    .items {
+        flex: 1;
+        padding: 10px;
+    }
+    .content {
+        flex: 2;
+        padding: 10px;
+    }
+    .item {
+        cursor: pointer;
+    }
+    .item:hover {
+        background-color: lightgray;
+    }
+</style>
 </head>
 <body>
-    <div class="loader-container" id="loader" style="display: block;">
-        <p id="loadingStatus">結果を測定中</p>
-        <progress id="loadingBar" value="0" max="100"></progress>
-        <span id="loadingText">Loading... 0%</span>
-        <button id="showResultButton" onclick="showResult()" style="display: none;">結果を表示</button>
+
+<div class="container">
+    <div class="items" id="itemList">
+        <div class="item" onclick="showItemContent('item1')">項目1</div>
+        <div class="item" onclick="showItemContent('item2')">項目2</div>
+        <div class="item" onclick="showItemContent('item3')">項目3</div>
     </div>
-    <div class="text" id="result" style="display: none;">
-        これは内容です
+    <div class="content" id="itemContent">
+        ここに選択された項目の内容が表示されます。
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let loadingBar = document.getElementById('loadingBar');
-            let loadingText = document.getElementById('loadingText');
-            let loadingStatus = document.getElementById('loadingStatus');
-            let showResultButton = document.getElementById('showResultButton');
-            let resultText = document.getElementById('resultText');
-            let progress = 0;
+</div>
 
-            function updateLoading() {
-                if (progress < 100) {
-                    progress += 1;
-                    loadingBar.value = progress;
-                    loadingText.textContent = `Loading... ${progress}%`;
-                    setTimeout(updateLoading, 100); // Adjust the interval as needed
-                } else {
-                    loadingText.textContent = 'Complete!';
-                    loadingStatus.textContent = ''; // Hide loading status text
-                    showResultButton.style.display = 'block'; // Show result button
-                }
-            }
+<script>
+    function showItemContent(itemId) {
+        var itemContent = document.getElementById(itemId + "-content").innerHTML;
+        document.getElementById("itemContent").innerHTML = itemContent;
+    }
+</script>
 
-            updateLoading();
-        });
+<!-- 各項目の内容 -->
+<div id="item1-content" style="display: none;">
+    項目1の内容がここに表示されます。
+</div>
+<div id="item2-content" style="display: none;">
+    項目2の内容がここに表示されます。
+</div>
+<div id="item3-content" style="display: none;">
+    項目3の内容がここに表示されます。
+</div>
 
-        function showResult() {
-            loader.style.display = 'none';
-            result.style.display = 'block'; // Show result text
-        }
-
-        function generateRandomString() {
-            let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < 10; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        }
-    </script>
 </body>
 </html>

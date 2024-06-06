@@ -35,6 +35,10 @@ h1{
     color:white;
     font-size: 600%;
 }
+a{
+    text-decoration:none;/*リンクのアンダーラインを非表示*/
+    color:#000;/*リンク色を黒に変更*/
+}
 .btn-text-3d {
     text-decoration: none;
     font-weight: bold;

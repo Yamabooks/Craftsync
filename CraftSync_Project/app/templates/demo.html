@@ -6,6 +6,26 @@
     <title>demonstration</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/demo.css')}}">
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let video = document.getElementById('myVideo');
+            let playButton = document.getElementById('playButton');
+
+            playButton.addEventListener('click', function() {
+                video.play();
+                
+                let startTime = new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                
+                console.log('再生開始時刻:', startTime);
+
+                video.addEventListener('ended', function(){
+                    playButton.style.display='none';
+                    nextButton.style.display='block';
+                    console.log('終了');
+                })
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="top">
@@ -45,27 +65,6 @@
             <a href="{{url_for('play')}}" class="btn btn__3d-border" id="nextButton" style="display: none;">次へ進む</a>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let video = document.getElementById('myVideo');
-            let playButton = document.getElementById('playButton');
-
-            playButton.addEventListener('click', function() {
-                video.play();
-                
-                let startTime = new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                
-                console.log('再生開始時刻:', startTime);
-
-                video.addEventListener('ended', function(){
-                    playButton.style.display='none';
-                    nextButton.style.display='block';
-                    console.log('終了');
-                })
-            });
-        });
-    </script>
 
 </body>
 </html>

@@ -33,6 +33,30 @@ a{
   text-decoration:none;/*リンクのアンダーラインを非表示*/
   color:#000;/*リンク色を黒に変更*/
 }
+.btn2 {
+  width: 150px;
+  text-align: center;
+  padding: 15px 20px;
+  margin: auto;
+  filter: drop-shadow(0px 0px 7px rgba(166, 166, 166, 0.6));
+  color: #000; /* テキストの色を黒に変更 */
+  display: inline-block;
+  background-color: yellow; /* イエロー */
+}
+
+/* 立体ボタン（ボーダー） */
+.btn__3d-border2 {
+  border-bottom: 5px solid #ffcc00; /* イエロー */
+  border-radius: 5px;
+  -webkit-transition: all 0.5s; /* 0.5秒かけてゆっくり変化（ベンダープレックス） */
+  transition: all 0.5s; /* 0.5秒かけてゆっくり変化 */
+}
+
+.btn__3d-border2:hover { /* マウスオーバー時 */
+  transform: translate(0, 3px); /* 上から3pxズラす */
+  border-bottom: 2px solid #ffcc00; /* ボーダーの高さを小さく */
+}
+
 .btn{
   width:150px;
   text-align:center;

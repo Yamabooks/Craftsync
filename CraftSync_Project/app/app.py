@@ -44,7 +44,7 @@ def play():
 
 # [/]へアクセスがあった場合、"result.html"を返す
 @app.route('/result1')
-def result():
+def result1():
     # セッションからデータを取得
     graph_url = session.get('graph_url')
     average_difference = session.get('average_difference')

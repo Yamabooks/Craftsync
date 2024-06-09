@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import japanize_matplotlib
-from flask import Flask
+from flask import Flask, session
 
 app = Flask(__name__)
 
@@ -87,6 +87,9 @@ sensor_values = {sensor: rank_value(combined_data[f'{sensor}_Rank'].iloc[0]) for
 sensor_rank_df = pd.DataFrame(list(sensor_values.items()), columns=['Sensor', 'Rank'])
 sensor_rank_df['Rank'] = sensor_rank_df['Rank'].map({5: 'S', 4: 'A', 3: 'B', 2: 'C', 1: 'D'})
 
+#ランクの保存
+session['sensor_rank_df'] = sensor_rank_df
+
 # 設定した重みに従って加重平均を計算する
 weighted_sum = (
     (sensor_values['force1'] + sensor_values['force2'] + sensor_values['force3']) * 0.7 / 3 +
@@ -97,3 +100,6 @@ weighted_sum = (
 # 加重平均に基づいて総合ランクを割り当て
 combined_data['Overall_Weighted_Rank'] = 'S' if weighted_sum >= 4.6 else 'A' if weighted_sum >= 3.6 else 'B' if weighted_sum >= 2.6 else 'C' if weighted_sum >= 1.6 else 'D'
 print('総合ランク:', combined_data['Overall_Weighted_Rank'].iloc[0])
+
+#総合ランクの保存
+session['overall_weighted_rank'] = combined_data['Overall_Weighted_Rank'].iloc[0]

@@ -1,22 +1,95 @@
+import os
 import pandas as pd
+import matplotlib.pyplot as plt
+import japanize_matplotlib
 
-# 処理後の参加者データフレーム
-participant_data = pd.DataFrame({
-    'force1': [0.453, 0.452, 0.451, 0.451, 0.466, 0.469, 0.453, 0.455, 0.453, 0.456],
-    'force2': [0.067, 0.068, 0.066, 0.067, 0.067, 0.067, 0.065, 0.052, 0.435, 0.439],
-    'force3': [0.068, 0.071, 0.067, 0.069, 0.071, 0.072, 0.069, 0.876, 0.978, 0.459],
-    'accel_x': [-0.53, -0.24, 0.06, 0.59, 0.49, 0.65, -0.31, -0.16, -0.01, 0.30],
-    'accel_y': [-0.32, 0.45, -0.29, 0.19, 0.22, 0.49, 0.82, 0.94, 0.97, 0.03],
-    'accel_z': [0.64, 0.87, 0.91, 0.82, 0.83, 0.59, 0.32, 0.42, 0.27, 0.92],
-    'gyro_x': [221.86, 38.93, -0.66, -27.47, -25.05, 37.06, -7.58, -3.22, 6.15, -0.20],
-    'gyro_y': [-9.26, -96.29, -46.54, 6.94, 1.32, -3.58, 15.21, -6.42, 32.78, -15.24],
-    'gyro_z': [83.48, 4.42, -71.33, -16.20, -13.25, 10.28, -11.67, 10.98, -14.63, 2.82],
-})
+# データの読み込み
+craftsman_file_path = os.path.join("static/data", "craftsman.xlsx")
+participant_file_path = os.path.join("static/data", "participant.xlsx")
+craftsman_data = pd.read_excel(craftsman_file_path)
+participant_data = pd.read_excel(participant_file_path)
 
-# インデックスを設定
-participant_data.index.name = 'second'
+# タイムスタンプを秒数に置き換える
+craftsman_data.reset_index(inplace=True)
+participant_data.reset_index(inplace=True)
 
-# Excelファイルに保存
-participant_data.to_excel('participant_data_original.xlsx')
+# 各データポイントに順番に秒数を割り当てる
+craftsman_data['second'] = range(1, len(craftsman_data) + 1)
+participant_data['second'] = range(1, len(participant_data) + 1)
 
-print("Excelファイル 'participant_data_original.xlsx' を作成しました。")
+# 元の 'timestamp' カラムを削除(本当はこの前に取得時間を計算)
+craftsman_data.drop(columns=['Timestamp'], inplace=True)
+participant_data.drop(columns=['Timestamp'], inplace=True)
+
+# 'second' をインデックスとして設定
+craftsman_data.set_index('second', inplace=True)
+participant_data.set_index('second', inplace=True)
+
+# 'index' カラムを削除
+craftsman_data.drop(columns=['index'], inplace=True)
+participant_data.drop(columns=['index'], inplace=True)
+
+# センサーデータのカラム
+sensor_columns = ['force1', 'force2', 'force3', 'accel_x', 'accel_y', 'accel_z', 'gyro_x', 'gyro_y', 'gyro_z']
+
+# センサーデータに対して差分とランクを計算
+# 差分を計算(Craftsman_num を基準にしたパーセンテージ変化の計算)
+# 絶対値を取ってます
+combined_data = pd.concat([craftsman_data, participant_data], axis=1, keys=['Craftsman', 'Participant'])
+for col in sensor_columns:
+    combined_data[f'{col}_Diff'] = abs((combined_data['Participant'][col] - combined_data['Craftsman'][col]) / combined_data['Craftsman'][col] * 100)
+    combined_data[f'{col}_Rank'] = combined_data[f'{col}_Diff'].apply(
+        lambda x: 'S' if x <= 10 else ('A' if x <= 20 else ('B' if x <= 30 else ('C' if x <= 40 else 'D')))
+    )
+
+# 各センサーについて、職人データ、体験者データ、差異、ランクを含む表を作成する
+def create_sensor_table(data, sensor):
+    df = pd.DataFrame({
+        'Craftsman_num': data['Craftsman'][sensor],
+        'Participant_num': data['Participant'][sensor],
+        'Difference': data[f'{sensor}_Diff'],
+        'Rank': data[f'{sensor}_Rank']
+    })
+    return df.reset_index()
+
+# 全センサーに対して表を作成し、結合する
+full_sensor_df = pd.concat([create_sensor_table(combined_data, sensor) for sensor in sensor_columns], keys=sensor_columns, axis=1)
+
+# DataFrameの形式を調整して表示
+full_sensor_df.columns = full_sensor_df.columns.map('_'.join)
+
+# グラフ描画（force1, force2, force3）
+plt.figure(figsize=(12, 10))
+for i, force in enumerate(['force1', 'force2', 'force3'], 1):
+    plt.subplot(3, 1, i)
+    plt.plot(combined_data['Craftsman'][force], label='職人', color='blue')
+    plt.plot(combined_data['Participant'][force], label='あなた', color='red')
+    plt.title(f'職人とあなたの {force} センサーデータの比較結果')
+    plt.xlabel('秒')
+    plt.ylabel(f'{force} の値')
+    plt.legend()
+    plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# 各ランクに数値を割り当てる関数
+def rank_value(rank):
+    return {'S': 5, 'A': 4, 'B': 3, 'C': 2, 'D': 1}.get(rank, 0)
+
+# 各センサーのランクに基づいて数値を割り当て
+sensor_values = {sensor: rank_value(combined_data[f'{sensor}_Rank'].iloc[0]) for sensor in sensor_columns}
+
+# ランクのみを表示するための DataFrame を更新
+sensor_rank_df = pd.DataFrame(list(sensor_values.items()), columns=['Sensor', 'Rank'])
+sensor_rank_df['Rank'] = sensor_rank_df['Rank'].map({5: 'S', 4: 'A', 3: 'B', 2: 'C', 1: 'D'})
+
+# 設定した重みに従って加重平均を計算する
+weighted_sum = (
+    (sensor_values['force1'] + sensor_values['force2'] + sensor_values['force3']) * 0.7 / 3 +
+    (sensor_values['accel_x'] + sensor_values['accel_y'] + sensor_values['accel_z']) * 0.2 / 3 +
+    (sensor_values['gyro_x'] + sensor_values['gyro_y'] + sensor_values['gyro_z']) * 0.1 / 3
+)
+
+# 加重平均に基づいて総合ランクを割り当て
+combined_data['Overall_Weighted_Rank'] = 'S' if weighted_sum >= 4.6 else 'A' if weighted_sum >= 3.6 else 'B' if weighted_sum >= 2.6 else 'C' if weighted_sum >= 1.6 else 'D'
+print('総合ランク:', combined_data['Overall_Weighted_Rank'].iloc[0])

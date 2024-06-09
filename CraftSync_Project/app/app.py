@@ -43,14 +43,14 @@ def play():
     return render_template('play.html')
 
 # [/]へアクセスがあった場合、"result.html"を返す
-@app.route('/result1')
-def result1():
+@app.route('/result')
+def result():
     # セッションからデータを取得
     graph_url = session.get('graph_url')
     average_difference = session.get('average_difference')
     rank = session.get('rank')
 
-    return render_template('result1.html', graph_url=session.get('graph_url'), average_difference=session.get('average_difference'), rank=session.get('rank'))
+    return render_template('result.html', graph_url=session.get('graph_url'), average_difference=session.get('average_difference'), rank=session.get('rank'))
 
 # [/]へアクセスがあった場合、"score.html"を返す
 @app.route('/score')

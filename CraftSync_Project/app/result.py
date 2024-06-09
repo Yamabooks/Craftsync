@@ -2,10 +2,13 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import japanize_matplotlib
+from flask import Flask
+
+app = Flask(__name__)
 
 # データの読み込み
-craftsman_file_path = os.path.join("static/data", "craftsman.xlsx")
-participant_file_path = os.path.join("static/data", "participant.xlsx")
+craftsman_file_path = os.path.join(app.root_path, "static/data", "craftsman.xlsx")
+participant_file_path = os.path.join(app.root_path, "static/data", "participant.xlsx")
 craftsman_data = pd.read_excel(craftsman_file_path)
 participant_data = pd.read_excel(participant_file_path)
 
@@ -58,10 +61,10 @@ full_sensor_df = pd.concat([create_sensor_table(combined_data, sensor) for senso
 # DataFrameの形式を調整して表示
 full_sensor_df.columns = full_sensor_df.columns.map('_'.join)
 
-# グラフ描画（force1, force2, force3）
-plt.figure(figsize=(12, 10))
-for i, force in enumerate(['force1', 'force2', 'force3'], 1):
-    plt.subplot(3, 1, i)
+
+# グラフ描画（force1, force2, force3）をそれぞれ保存する
+for force in ['force1', 'force2', 'force3']:
+    plt.figure(figsize=(8, 6))
     plt.plot(combined_data['Craftsman'][force], label='職人', color='blue')
     plt.plot(combined_data['Participant'][force], label='あなた', color='red')
     plt.title(f'職人とあなたの {force} センサーデータの比較結果')
@@ -69,8 +72,9 @@ for i, force in enumerate(['force1', 'force2', 'force3'], 1):
     plt.ylabel(f'{force} の値')
     plt.legend()
     plt.grid(True)
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+    plt.savefig(os.path.join(app.root_path, "static/images/", f'{force}_comparison.png'))  # グラフを保存する
+    plt.close()  # プロットをクリア
 
 # 各ランクに数値を割り当てる関数
 def rank_value(rank):

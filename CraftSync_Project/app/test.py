@@ -8,13 +8,18 @@ import io
 app = Flask(__name__)
 app.secret_key='admin_secret_key'
 
+# サンプルのデータを作成
+data = {'Name': ['Alice', 'Bob', 'Charlie'],
+        'Age': [30, 35, 25],
+        'Occupation': ['Engineer', 'Doctor', 'Artist']}
+
+df = pd.DataFrame(data)
+
 @app.route('/')
 def index():
-    # セッションデータを削除
-
-    analyze_data()
     
-    return render_template('test.html',rank = session.get('overall_weighted_rank'))
+    html_table = df.to_html(index=False, classes='table table-striped', escape=False)
+    return render_template('test2.html',table=html_table)
 
 @app.route('/test2')
 def test2():
@@ -86,7 +91,7 @@ def analyze_data():
         sensor_table = create_sensor_table(combined_data, sensor)
         sensor_tables[sensor] = sensor_table
         #センサーテーブルを保存
-        #session[f'sensor_table_df{i}'] = sensor_table
+        session[f'sensor_table_df{i}'] = sensor_table.to_html()
         i+=1
 
     # グラフ描画（force1, force2, force3）をそれぞれ保存する
@@ -116,7 +121,7 @@ def analyze_data():
     sensor_rank_df['ランク'] = sensor_rank_df['ランク'].map({5: 'S', 4: 'A', 3: 'B', 2: 'C', 1: 'D'})
 
     #センサーランクの保存
-    session['sensor_rank_df'] = sensor_rank_df
+    session['sensor_rank_df'] = sensor_rank_df.to_html()
 
     # 設定した重みに従って加重平均を計算する
     weighted_sum = (

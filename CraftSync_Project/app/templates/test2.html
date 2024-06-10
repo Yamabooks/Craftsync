@@ -1,30 +1,65 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>result</title>
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Frame Display</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .details-container {
+            padding-left: 20px;
+        }
+        table {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="top">
-        <h1>結果発表</h1>
-    </div>
-
-    <div class="main">
-
-        <div class="rankD">
-            <div class="rankimg">
-
+    <h1>Data Frame Display</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Occupation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for index, row in table.iterrows() %}
+                        <tr data-name="{{ row['Name'] }}">
+                            <td>{{ row['Name'] }}</td>
+                            <td>{{ row['Age'] }}</td>
+                            <td>{{ row['Occupation'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <div class="text">
-
+            <div class="col details-container">
+                <h2>Details</h2>
+                <div id="details">
+                    Click on a name to see details.
+                </div>
             </div>
-            <div class="mokemoke">
-
-            </div> 
         </div>
     </div>
-    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('table tbody tr').click(function() {
+                const name = $(this).data('name');
+                const detailsHtml = `
+                    <p>Name: ${name}</p>
+                    <p>Age: ${$(this).find('td:eq(1)').text()}</p>
+                    <p>Occupation: ${$(this).find('td:eq(2)').text()}</p>
+                `;
+                $('#details').html(detailsHtml);
+            });
+        });
+    </script>
 </body>
 </html>

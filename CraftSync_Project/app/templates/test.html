@@ -1,59 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>項目の選択と表示</title>
-<style>
-    .container {
-        display: flex;
-    }
-    .items {
-        flex: 1;
-        padding: 10px;
-    }
-    .content {
-        flex: 2;
-        padding: 10px;
-    }
-    .item {
-        cursor: pointer;
-    }
-    .item:hover {
-        background-color: lightgray;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>テストページ</title>
 </head>
 <body>
-
-<div class="container">
-    <div class="items" id="itemList">
-        <div class="item" onclick="showItemContent('item1')">項目1</div>
-        <div class="item" onclick="showItemContent('item2')">項目2</div>
-        <div class="item" onclick="showItemContent('item3')">項目3</div>
-    </div>
-    <div class="content" id="itemContent">
-        ここに選択された項目の内容が表示されます。
-    </div>
-</div>
-
-<script>
-    function showItemContent(itemId) {
-        var itemContent = document.getElementById(itemId + "-content").innerHTML;
-        document.getElementById("itemContent").innerHTML = itemContent;
-    }
-</script>
-
-<!-- 各項目の内容 -->
-<div id="item1-content" style="display: none;">
-    項目1の内容がここに表示されます。
-</div>
-<div id="item2-content" style="display: none;">
-    項目2の内容がここに表示されます。
-</div>
-<div id="item3-content" style="display: none;">
-    項目3の内容がここに表示されます。
-</div>
-
+    <h1>テストページ</h1>
+    <div id="rank-display"></div>
+    
+    <script>
+        // JavaScriptでJSONデータを取得し、HTMLに表示する
+        window.onload = function() {
+            // ランクを取得するためのAjaxリクエストを送信
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/analyze_data');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // レスポンスからランクを取得し、HTMLに表示
+                    var responseData = JSON.parse(xhr.responseText);
+                    var rank = responseData.rank;
+                    document.getElementById('rank-display').innerHTML = "<p>総合ランク: " + rank + "</p>";
+                }
+            };
+            xhr.send();
+        };
+    </script>
 </body>
 </html>

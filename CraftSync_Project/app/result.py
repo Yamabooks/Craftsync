@@ -7,8 +7,8 @@ from flask import Flask, session
 app = Flask(__name__)
 
 # データの読み込み
-craftsman_file_path = os.path.join(app.root_path, "static/data", "craftsman.xlsx")
-participant_file_path = os.path.join(app.root_path, "static/data", "participant.xlsx")
+craftsman_file_path = os.path.join(app.root_path, "static/data", "職人データ.xlsx")
+participant_file_path = os.path.join(app.root_path, "static/data", "体験者データ.xlsx")
 craftsman_data = pd.read_excel(craftsman_file_path)
 participant_data = pd.read_excel(participant_file_path)
 
@@ -17,16 +17,16 @@ craftsman_data.reset_index(inplace=True)
 participant_data.reset_index(inplace=True)
 
 # 各データポイントに順番に秒数を割り当てる
-craftsman_data['second'] = range(1, len(craftsman_data) + 1)
-participant_data['second'] = range(1, len(participant_data) + 1)
+craftsman_data['秒'] = range(1, len(craftsman_data) + 1)
+participant_data['秒'] = range(1, len(participant_data) + 1)
 
 # 元の 'timestamp' カラムを削除(本当はこの前に取得時間を計算)
 craftsman_data.drop(columns=['Timestamp'], inplace=True)
 participant_data.drop(columns=['Timestamp'], inplace=True)
 
 # 'second' をインデックスとして設定
-craftsman_data.set_index('second', inplace=True)
-participant_data.set_index('second', inplace=True)
+craftsman_data.set_index('秒', inplace=True)
+participant_data.set_index('秒', inplace=True)
 
 # 'index' カラムを削除
 craftsman_data.drop(columns=['index'], inplace=True)
@@ -48,23 +48,28 @@ for col in sensor_columns:
 # 各センサーについて、職人データ、体験者データ、差異、ランクを含む表を作成する
 def create_sensor_table(data, sensor):
     df = pd.DataFrame({
-        'Craftsman_num': data['Craftsman'][sensor],
-        'Participant_num': data['Participant'][sensor],
-        'Difference': data[f'{sensor}_Diff'],
-        'Rank': data[f'{sensor}_Rank']
+        '職人の値': data['Craftsman'][sensor],
+        'あなたの値': data['Participant'][sensor],
+        '値の差': data[f'{sensor}_Diff'],
+        'ランク': data[f'{sensor}_Rank']
     })
     return df.reset_index()
 
-# 全センサーに対して表を作成し、結合する
-full_sensor_df = pd.concat([create_sensor_table(combined_data, sensor) for sensor in sensor_columns], keys=sensor_columns, axis=1)
 
-# DataFrameの形式を調整して表示
-full_sensor_df.columns = full_sensor_df.columns.map('_'.join)
-
+# 各センサーに対して個別に表を作成して表示
+sensor_tables = {}
+i = 0
+for sensor in sensor_columns:
+    sensor_table = create_sensor_table(combined_data, sensor)
+    sensor_tables[sensor] = sensor_table
+    #センサーテーブルを保存
+    session[f'sensor_table_df{i}'] = sensor_table
+    i+=1
 
 # グラフ描画（force1, force2, force3）をそれぞれ保存する
-for force in ['force1', 'force2', 'force3']:
-    plt.figure(figsize=(8, 6))
+plt.figure(figsize=(12, 10))
+for i, force in enumerate(['force1', 'force2', 'force3'], 1):
+    plt.subplot(3, 1, i)
     plt.plot(combined_data['Craftsman'][force], label='職人', color='blue')
     plt.plot(combined_data['Participant'][force], label='あなた', color='red')
     plt.title(f'職人とあなたの {force} センサーデータの比較結果')
@@ -84,10 +89,10 @@ def rank_value(rank):
 sensor_values = {sensor: rank_value(combined_data[f'{sensor}_Rank'].iloc[0]) for sensor in sensor_columns}
 
 # ランクのみを表示するための DataFrame を更新
-sensor_rank_df = pd.DataFrame(list(sensor_values.items()), columns=['Sensor', 'Rank'])
-sensor_rank_df['Rank'] = sensor_rank_df['Rank'].map({5: 'S', 4: 'A', 3: 'B', 2: 'C', 1: 'D'})
+sensor_rank_df = pd.DataFrame(list(sensor_values.items()), columns=['センサー名', 'ランク'])
+sensor_rank_df['ランク'] = sensor_rank_df['ランク'].map({5: 'S', 4: 'A', 3: 'B', 2: 'C', 1: 'D'})
 
-#ランクの保存
+#センサーランクの保存
 session['sensor_rank_df'] = sensor_rank_df
 
 # 設定した重みに従って加重平均を計算する
@@ -103,3 +108,5 @@ print('総合ランク:', combined_data['Overall_Weighted_Rank'].iloc[0])
 
 #総合ランクの保存
 session['overall_weighted_rank'] = combined_data['Overall_Weighted_Rank'].iloc[0]
+
+print(session['overrall_weighted_rank'])

@@ -24,8 +24,8 @@ body{
   flex-direction: column;
 }
 img{
-  width: 700px;
-  height: 50vh;
+  width: auto;
+  height: auto;
 }
 .box{
   display: flex;

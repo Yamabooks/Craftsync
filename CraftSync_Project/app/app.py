@@ -154,8 +154,8 @@ def analyze_data():
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(os.path.join(app.root_path, "static/images/graph", f'{force}_comparison.png'))  # グラフを保存する
-        plt.close()  # プロットをクリア
+    plt.savefig(os.path.join(app.root_path, "static/images/graph", 'force_comparison.png'))  # グラフを保存する
+    plt.close()  # プロットをクリア
 
     # 各ランクに数値を割り当てる関数
     def rank_value(rank):

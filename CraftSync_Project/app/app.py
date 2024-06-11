@@ -6,7 +6,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import japanize_matplotlib
-from datetime import datetime 
+from datetime import datetime
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
 import os
 import io
 
@@ -150,7 +154,7 @@ def analyze_data():
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(os.path.join(app.root_path, "static/images/", f'{force}_comparison.png'))  # グラフを保存する
+        plt.savefig(os.path.join(app.root_path, "static/images/graph", f'{force}_comparison.png'))  # グラフを保存する
         plt.close()  # プロットをクリア
 
     # 各ランクに数値を割り当てる関数
@@ -182,6 +186,86 @@ def analyze_data():
     rank = combined_data['Overall_Weighted_Rank'].iloc[0]
 
     session['rank'] = rank
+
+    # データの標準化
+    scaler = StandardScaler()
+    features = ['force1', 'force2', 'force3', 'accel_x', 'accel_y', 'accel_z', 'gyro_x', 'gyro_y', 'gyro_z']
+
+    # 職人データにフィットさせ、両方のデータセットを変換
+    craftsman_scaled = scaler.fit_transform(craftsman_data[features])
+    participant_scaled = scaler.transform(participant_data[features])
+
+    # データをDataFrameに変換
+    craftsman_scaled_df = pd.DataFrame(craftsman_scaled, columns=features)
+    participant_scaled_df = pd.DataFrame(participant_scaled, columns=features)
+
+    # 追加の特徴量生成: センサーデータの平均、標準偏差、範囲
+    def add_features(df):
+        df['force_mean'] = df[['force1', 'force2', 'force3']].mean(axis=1)
+        df['accel_mean'] = df[['accel_x', 'accel_y', 'accel_z']].mean(axis=1)
+        df['gyro_mean'] = df[['gyro_x', 'gyro_y', 'gyro_z']].mean(axis=1)
+
+        df['force_std'] = df[['force1', 'force2', 'force3']].std(axis=1)
+        df['accel_std'] = df[['accel_x', 'accel_y', 'accel_z']].std(axis=1)
+        df['gyro_std'] = df[['gyro_x', 'gyro_y', 'gyro_z']].std(axis=1)
+
+        df['force_range'] = df[['force1', 'force2', 'force3']].max(axis=1) - df[['force1', 'force2', 'force3']].min(axis=1)
+        df['accel_range'] = df[['accel_x', 'accel_y', 'accel_z']].max(axis=1) - df[['accel_x', 'accel_y', 'accel_z']].min(axis=1)
+        df['gyro_range'] = df[['gyro_x', 'gyro_y', 'gyro_z']].max(axis=1) - df[['gyro_x', 'gyro_y', 'gyro_z']].min(axis=1)
+
+        return df
+
+    # 特徴量生成を適用
+    craftsman_features = add_features(craftsman_scaled_df)
+    participant_features = add_features(participant_scaled_df)
+
+    # ランダムフォレストモデルの訓練と予測
+    model = RandomForestRegressor(n_estimators=100, random_state=42)
+
+    # 特徴量とターゲット変数の準備
+    X_craftsman = craftsman_features.drop('force_mean', axis=1)
+    y_craftsman = craftsman_features['force_mean']
+
+    # モデルの再訓練
+    model.fit(X_craftsman, y_craftsman)
+
+    # 参加者データのターゲット変数の予測
+    participant_predictions_new_target = model.predict(participant_features.drop('force_mean', axis=1))
+
+    # 予測値の平均と標準偏差の計算
+    predicted_mean = np.mean(participant_predictions_new_target)
+    predicted_std = np.std(participant_predictions_new_target)
+
+    # クラフツマンデータのターゲット変数の平均と標準偏差の取得
+    true_mean = y_craftsman.mean()
+    true_std = y_craftsman.std()
+
+    # 正規化平均絶対誤差（NMAE）の計算
+    absolute_errors = np.abs(participant_predictions_new_target - true_mean)
+    mean_absolute_error = np.mean(absolute_errors)
+    range_of_values = y_craftsman.max() - y_craftsman.min()
+    nmae = mean_absolute_error / range_of_values
+    match_rate = 1 - nmae
+
+    # 個別のマッチ率の計算とプロット
+    individual_match_rates = []
+
+    for prediction in participant_predictions_new_target:
+        individual_error = np.abs(prediction - true_mean)
+        individual_nmae = individual_error / range_of_values
+        individual_match_rate = 1 - individual_nmae
+        individual_match_rates.append(individual_match_rate)
+
+    plt.figure(figsize=(10, 5))
+    plt.plot(individual_match_rates, marker='o', linestyle='-', color='g')
+    plt.title('あなたの体験データのAI評価結果')
+    plt.xlabel('秒')
+    plt.ylabel('評価値')
+    plt.grid(True)
+    plt.ylim(0, 1)  # マッチ率は0から1の間
+    plt.xticks(range(0, 10), labels=range(1, 11))  # 1から10の全ての目盛りを表示
+    plt.savefig(os.path.join(app.root_path, "static/images/graph", 'AI_evaluation_results.png'))
+    plt.close()
 
     return jsonify({'rank': rank})
 

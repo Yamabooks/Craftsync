@@ -2,29 +2,51 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>テストページ</title>
+    <title>result</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/result.css')}}">
+
+
 </head>
 <body>
-    <h1>テストページ</h1>
-    <div id="rank-display"></div>
+    <div class="top">
+        <h1>結果発表</h1>
+        <div id="rank-display"></div>
+    </div>
+
+    <div class="main">
+        <div id="loader" class="loader" style="display: none;"></div>
+        <div id="rank-image-S" class="ranking" style="display: flex;">
+            <div class="pltrank">
+                <p>あなたの職人ランクは・・・</p>
+                <img src="{{url_for('static',filename='images/ranking/rankS.png')}}" alt="S" class="rankimg" >
+            </div>
+
+            <div class="left">
+                <div class="box">
+                    <div class="balloon2">
+                        <div class="text">
+                            とてもよく頑張ったね！<br>
+                            フライパン職人への道は<br>
+                            まだまだこれから！<br>
+                            <br>
+                            リベンジ待っているよ！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mokemoke_S">
+                    <img src="{{url_for('static',filename='images/ranking/moke_S.png')}}" alt="moke_S" class="mokemoke_S" >
+                </div>
+            </div>
+        </div>
+    </div>
     
-    <script>
-        // JavaScriptでJSONデータを取得し、HTMLに表示する
-        window.onload = function() {
-            // ランクを取得するためのAjaxリクエストを送信
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/analyze_data');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // レスポンスからランクを取得し、HTMLに表示
-                    var responseData = JSON.parse(xhr.responseText);
-                    var rank = responseData.rank;
-                    document.getElementById('rank-display').innerHTML = "<p>総合ランク: " + rank + "</p>";
-                }
-            };
-            xhr.send();
-        };
-    </script>
+    <div class="bottom">
+        <div class = "button">
+            <a class="btn2 btn__3d-border2" id="runscript" onclick="executeScript()" style="display: none;">結果を表示</a>
+
+            <a class="btn btn__3d-border" id="nextButton" style="display: block;">次へ進む</a>
+        </div>
+    </div>
 </body>
 </html>

@@ -8,18 +8,57 @@
     <script>
         // JavaScriptでJSONデータを取得し、HTMLに表示する
         window.onload = function() {
-            // ランクを取得するためのAjaxリクエストを送信
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/analyze_data');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // レスポンスからランクを取得し、HTMLに表示
-                    var responseData = JSON.parse(xhr.responseText);
-                    var rank = responseData.rank;
-                    document.getElementById('rank-display').innerHTML = "<p>総合ランク: " + rank + "</p>";
-                }
-            };
-            xhr.send();
+            // ローディング時間（ミリ秒単位で指定）
+            const loadingTime = 3000;
+
+            function showResult(){
+                // ランクを取得するためのAjaxリクエストを送信
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/analyze_data');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        document.getElementById('loader').style.display = 'none';
+
+                        // レスポンスからランクを取得し、HTMLに表示
+                        var responseData = JSON.parse(xhr.responseText);
+                        var rank = responseData.rank;
+                        
+                        // 応答がSの場合
+                        if (rank === 'S') {
+                            document.getElementById('rank-image-S').style.display = 'flex';
+                            console.log('応答はSです。');
+                        }
+                        // 応答がAの場合
+                        else if (rank === 'A') {
+                            document.getElementById('rank-image-A').style.display = 'flex';
+                            console.log('応答はAです。');
+                        }
+                        // 応答がBの場合
+                        else if (rank === 'B') {
+                            document.getElementById('rank-image-B').style.display = 'flex';
+                            console.log('応答はBです。');
+                        }
+                        // 応答がCの場合
+                        else if (rank === 'C') {
+                            document.getElementById('rank-image-C').style.display = 'flex';
+                            console.log('応答はCです。');
+                        }
+                        // 応答がDの場合
+                        else if (rank === 'D') {
+                            document.getElementById('rank-image-D').style.display = 'flex';
+                            console.log('応答はDです。');
+                        }
+                        // 上記以外の場合
+                        else {
+                            // 何らかのデフォルトのアクションを実行するか、エラー処理を行う
+                            console.log('不明な応答です。');
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            // 一定時間後にコンテンツを表示
+            setTimeout(showResult, loadingTime);
         };
     </script>
 
@@ -32,7 +71,133 @@
     </div>
 
     <div class="main">
-        <div id="rank-image-container"></div>
+        <div id="loader" class="loader"></div>
+
+        <div id="rank-image-D" class="ranking" style="display: none;">
+            <div class="pltrank">
+                <p>あなたの職人ランクは・・・</p>
+                <img src="{{url_for('static',filename='images/ranking/rankD.png')}}" alt="D" class="rankimg" >
+            </div>
+
+            <div class="left">
+                <div class="box">
+                    <div class="balloon2">
+                        <div class="text">
+                            とてもよく頑張ったね！<br>
+                            フライパン職人への道は<br>
+                            まだまだこれから！<br>
+                            <br>
+                            リベンジ待っているよ！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mokemoke">
+                    <img src="{{url_for('static',filename='images/ranking/moke_D.png')}}" alt="moke_D" class="mokemoke" >
+                </div>
+            </div>
+        </div>
+
+        <div id="rank-image-C" class="ranking" style="display: none;">
+            <div class="pltrank">
+                <p>あなたの職人ランクは・・・</p>
+                <img src="{{url_for('static',filename='images/ranking/rankC.png')}}" alt="C" class="rankimg" >
+            </div>
+
+            <div class="left">
+                <div class="box">
+                    <div class="balloon2">
+                        <div class="text">
+                            とても頑張ったね！<br>
+                            職人になるために、<br>
+                            また遊んで欲しいな！<br>
+                            ランクアップ目指して<br>
+                            頑張ろう！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mokemoke_C">
+                    <img src="{{url_for('static',filename='images/ranking/moke_C.png')}}" alt="moke_C" class="mokemoke_C" >
+                </div>
+            </div>
+        </div>
+
+        <div id="rank-image-B" class="ranking" style="display: none;">
+            <div class="pltrank">
+                <p>あなたの職人ランクは・・・</p>
+                <img src="{{url_for('static',filename='images/ranking/rankB.png')}}" alt="B" class="rankimg" >
+            </div>
+
+            <div class="left">
+                <div class="box">
+                    <div class="balloon2">
+                        <div class="text">
+                            とても順調に<br>
+                            進められたね！<br>
+                            結果の詳細を確認して<br>
+                            次はランクアップを<br>
+                            目指そう！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mokemoke_B">
+                    <img src="{{url_for('static',filename='images/ranking/moke_B.png')}}" alt="moke_B" class="mokemoke_B" >
+                </div>
+            </div>
+        </div>
+
+        <div id="rank-image-A" class="ranking" style="display: none;">
+            <div class="pltrank">
+                <p>あなたの職人ランクは・・・</p>
+                <img src="{{url_for('static',filename='images/ranking/rankA.png')}}" alt="A" class="rankimg" >
+            </div>
+
+            <div class="left">
+                <div class="box">
+                    <div class="balloon2">
+                        <div class="text">
+                            おめでとう！<br>
+                            あなたのおかげで<br>
+                            僕も丸くなれました。<br>
+                            次挑戦したら<br>
+                            Sランクになるかも！？
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mokemoke_A">
+                    <img src="{{url_for('static',filename='images/ranking/moke_A.png')}}" alt="moke_A" class="mokemoke_A" >
+                </div>
+            </div>
+        </div>
+
+        <div id="rank-image-S" class="ranking" style="display: none;">
+            <div class="pltrank">
+                <p>あなたの職人ランクは・・・</p>
+                <img src="{{url_for('static',filename='images/ranking/rankS.png')}}" alt="S" class="rankimg" >
+            </div>
+
+            <div class="left">
+                <div class="box">
+                    <div class="balloon2">
+                        <div class="text">
+                            おめでとう！<br>
+                            あなたのおかげで<br>
+                            フライパンになれました！<br>
+                            Sランク証明を使って<br>
+                            みんなにアピールしよう！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mokemoke_S">
+                    <img src="{{url_for('static',filename='images/ranking/moke_S.png')}}" alt="moke_S" class="mokemoke_S" >
+                </div>
+            </div>
+        </div>
+
     </div>
     
     <div class="bottom">

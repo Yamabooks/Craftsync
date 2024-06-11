@@ -5,6 +5,26 @@ body{
   background-position: top; /* 画像の位置を中央に設定 */
   height: 100vh;
 }
+#loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  position: absolute;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#content {
+  display: none;
+  text-align: center;
+}
+
 .top{
   background-color: rgba(255, 0, 0, 0);
   height: 15vh;
@@ -19,8 +39,92 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
+.ranking{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+p{
+  font-size: 30px;
+}
+.rankimg{
+  height: 500px;
+
+}
+.box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text{
+  text-align: center;
+  font-size: 30px;
+}
+.balloon2 {
+  position: relative;
+  display: inline-block;
+  margin: 1.5em 0;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #FFF;
+  border: solid 3px #555;
+  box-sizing: border-box;
+}
+
+.balloon2:before {
+  content: "";
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  margin-left: -15px;
+  border: 12px solid transparent;
+  border-top: 12px solid #FFF;
+  z-index: 2;
+}
+
+.balloon2:after {
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  margin-left: -17px;
+  border: 14px solid transparent;
+  border-top: 14px solid #555;
+  z-index: 1;
+}
+
+.balloon2 p {
+  margin: 0;
+  padding: 0;
+}
+
+.mokemoke{
+  width: 400px;
+  height: 350px;
+}
+.mokemoke_C{
+  width: 450px;
+  height: 300px;
+}
+.mokemoke_B{
+  width: 450px;
+  height: 300px;
+}
+.mokemoke_A{
+  width: 500px;
+  height: 300px;
+}
+.mokemoke_S{
+  width: 500px;
+  height: 400px;
+}
 .bottom{
   height: 15vh;
 }

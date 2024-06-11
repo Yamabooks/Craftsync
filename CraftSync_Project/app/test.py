@@ -19,7 +19,7 @@ df = pd.DataFrame(data)
 def index():
     
     html_table = df.to_html(index=False, classes='table table-striped', escape=False)
-    return render_template('test2.html',table=html_table)
+    return render_template('test.html',table=html_table)
 
 @app.route('/test2')
 def test2():

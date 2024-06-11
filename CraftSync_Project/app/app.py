@@ -67,18 +67,31 @@ def score2():
 def end():
     return render_template('end.html')
 
-@app.route('/get_time')
-def get_time():
-    # 現在時刻を取得
-    current_time = datetime.now()
+@app.route('/get_start_time')
+def get_start_time():
+    # スタート時刻を取得
+    start_time = datetime.now()
 
-    current_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
-    print("フォーマットされた現在時刻:", current_time)
+    start_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
+    print("フォーマットされた現在時刻:", start_time)
 
     # セッションにデータを保存
-    session['current_time'] = current_time
+    session['start_time'] = start_time
 
-    return jsonify({'current_time': current_time})
+    return jsonify({'start_time': start_time})
+
+@app.route('/get_end_time')
+def get_end_time():
+    # エンド時刻を取得
+    end_time = datetime.now()
+
+    end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
+    print("フォーマットされた現在時刻:", end_time)
+
+    # セッションにデータを保存
+    session['end_time'] = end_time
+
+    return jsonify({'end_time': end_time})
 
 @app.route('/analyze_data')
 def analyze_data():

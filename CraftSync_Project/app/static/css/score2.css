@@ -1,0 +1,53 @@
+body{
+    
+    background-image: url('../images/none.png'); /* 画像のパスを指定 */
+    background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
+    background-position: top; /* 画像の位置を中央に設定 */
+    height: 100vh;
+}
+.top{
+    background-color: rgba(255, 0, 0, 0);
+    height: 15vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.main{
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom{
+    height: 15vh;
+}
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn{
+    width:150px;
+    text-align:center;
+    padding:15px 20px;
+    margin:auto;
+    filter: drop-shadow(0px 0px 7px rgba(166,166,166,0.6));
+    color:#fff;
+    display:inline-block;
+    background-color:#31dab0;
+  }
+  
+  /*立体ボタン（ボーダー）*/
+.btn__3d-border{
+    border-bottom:5px solid #28987c;
+    border-radius:5px;
+    -webkit-transition: all 0.5s;/*0.5秒かけてゆっくり変化（ベンタープレックス）*/
+    transition: all 0.5s;/*0.5秒かけてゆっくり変化*/
+}
+    .btn__3d-border:hover{ /*マウスオーバー時*/
+    transform: translate(0,3px);/*上から3pxズラす*/
+    border-bottom:2px solid #28987c;/*ボーダーの高さを小さく*/
+}

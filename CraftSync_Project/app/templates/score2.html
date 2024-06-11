@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dataframe Table</title>
+    <title>Detail data</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
         $(document).ready(function(){
             // 表の行ごとにクリックイベントを追加
@@ -28,30 +30,49 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    // デバッグ用に取得したJSONデータをコンソールに表示
+                    console.log('Received JSON data:', data);
+
                     // データフレームを表示する場所の要素を取得
                     const sensorInfoElement = document.getElementById("sensor-info");
 
-                    // 取得したデータをHTMLに挿入する
-                    sensorInfoElement.innerHTML = "<h2>Sensor Information</h2>" +
-                                            "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+                    // 取得したデータをHTMLに挿入
+                    sensorInfoElement.innerHTML = `
+                        <h2>Sensor Information</h2>
+                        ${data}
+                    `;
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
-                
-
-                // データを表示
-                $('#sensor-info').html(data);
             });
         });
 
     </script>
 </head>
 <body>
-    <h1>センサーデータ</h1>
-    <!-- データフレームを表示 -->
-    {{ sensor_rank | safe }}
-    <!-- クリックしたセンサーの情報を表示する領域 -->
-    <div id="sensor-info"></div>
+    <div class="top">
+        <h1>センサーデータの詳細</h1>
+    </div>
+
+    <div class="main">
+        <div class="sensor_rank">
+            <!-- データフレームを表示 -->
+            {{ sensor_rank | safe }}
+            <p>orce1=人差し指の力の強さ<br>
+                force2=中指の力の強さ<br>
+                force3=親指の力の強さ<br>
+                accel_x,y,z=手の動きの早さ<br>
+                gyro_x,y,z=手の甲の向き(手首の動き)</p>
+        </div>
+        
+        <!-- クリックしたセンサーの情報を表示する領域 -->
+        <div id="sensor-info"></div>
+    </div>
+    <div class="bottom">
+        <div class = "button">
+            <a href="{{url_for('end')}}" class="btn btn__3d-border" id="nextButton" style="display: none;">次へ進む</a>
+        </div>
+    </div>
 </body>
 </html>

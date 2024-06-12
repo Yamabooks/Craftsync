@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import japanize_matplotlib
 import os
 import io
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key='admin_secret_key'
@@ -18,8 +19,7 @@ df = pd.DataFrame(data)
 @app.route('/')
 def index():
     
-    html_table = df.to_html(index=False, classes='table table-striped', escape=False)
-    return render_template('test.html',table=html_table)
+    return render_template('test.html')
 
 @app.route('/test2')
 def test2():
@@ -31,6 +31,37 @@ def test2():
     return render_template('test2.html', graph_url = session.get('graph_url'),
     average_difference = session.get('average_difference'),
     rank = session.get('rank'))
+
+@app.route('/make_data')
+def make_data():
+    file_path = os.path.join(app.root_path, "static/data", "data.xlsx")
+    sheet_name = 'Sheet1'
+    df = pd.read_excel(file_path, sheet_name=sheet_name)
+
+    start_time = '2024-06-12 13:51:30'
+    end_time = '2024-06-12 13:51:40'
+
+    # 日付文字列をdatetimeオブジェクトに変換
+    start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")
+    end_time = datetime.strptime(end_time, "%Y-%d-%m %H:%M:%S")
+
+    # 日付列をdatetime型に変換
+    df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+
+    # 時間範囲でデータをフィルタリング
+    df = df[(df['Timestamp'] >= start_time) & (df['Timestamp'] <= end_time)]
+
+    # 新しいフォーマットで日付を表示
+    df['Timestamp'] = pd.to_datetime(df['Timestamp']).dt.strftime("%m/%d/%Y, %H:%M:%S")
+    print('フォーマット後：',df)
+
+    # データを新しいファイルに書き込み
+    file_path = os.path.join(app.root_path, "static/data", "テストデータ.xlsx")
+    df.to_excel(file_path, index=False)
+
+    data = df.to_html()
+
+    return jsonify(data)
 
 @app.route('/analyze_data')
 def analyze_data():

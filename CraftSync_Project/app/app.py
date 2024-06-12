@@ -6,7 +6,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import japanize_matplotlib
-from datetime import datetime
+from datetime import datetime, timedelta
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
@@ -72,8 +72,11 @@ def get_start_time():
     # スタート時刻を取得
     start_time = datetime.now()
 
+    # 1秒を加える
+    start_time += timedelta(seconds=1)
+
     start_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
-    print("フォーマットされた現在時刻:", start_time)
+    print("現在時刻:", start_time)
 
     # セッションにデータを保存
     session['start_time'] = start_time
@@ -85,16 +88,61 @@ def get_end_time():
     # エンド時刻を取得
     end_time = datetime.now()
 
+    # 1秒を加える
+    end_time += timedelta(seconds=1)
+
     end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
-    print("フォーマットされた現在時刻:", end_time)
+    print("終了時刻:", end_time)
 
     # セッションにデータを保存
     session['end_time'] = end_time
 
     return jsonify({'end_time': end_time})
 
+
+
+
 @app.route('/analyze_data')
+
 def analyze_data():
+
+    def make_data():
+        file_path = os.path.join(app.root_path, "static/data", "data.xlsx")
+        sheet_name = 'Sheet1'
+        df = pd.read_excel(file_path, sheet_name=sheet_name)
+
+        start_time = session.get('start_time')
+        end_time = session.get('end_time')
+
+        print(start_time)
+        print(end_time)
+
+        start_time = '2024-06-12 13:51:30'
+        end_time = '2024-06-12 13:51:40'
+
+        # 日付文字列をdatetimeオブジェクトに変換
+        start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")
+        end_time = datetime.strptime(end_time, "%Y-%d-%m %H:%M:%S")
+
+        # 日付列をdatetime型に変換
+        df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+
+        # 時間範囲でデータをフィルタリング
+        df = df[(df['Timestamp'] >= start_time) & (df['Timestamp'] <= end_time)]
+
+        # 新しいフォーマットで日付を表示
+        df['Timestamp'] = pd.to_datetime(df['Timestamp']).dt.strftime("%m/%d/%Y, %H:%M:%S")
+        print('フォーマット後：',df)
+
+        # データを新しいファイルに書き込み
+        file_path = os.path.join(app.root_path, "static/data", "テストデータ.xlsx")
+        df.to_excel(file_path, index=False)
+
+        return None
+
+    # 最新データの作成
+    #make_data()
+
     # データの読み込み
     craftsman_file_path = os.path.join(app.root_path, "static/data", "職人データ.xlsx")
     participant_file_path = os.path.join(app.root_path, "static/data", "体験者データ.xlsx")
@@ -288,7 +336,6 @@ def find_table():
     sensor_name = json_data.get('sensor_name')
     sensor_table = session.get(sensor_name)
     return jsonify(sensor_table)
-
 
 
 if __name__ == '__main__':

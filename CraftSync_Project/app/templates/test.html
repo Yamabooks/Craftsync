@@ -2,43 +2,39 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>result</title>
+    <title>test</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/result.css')}}">
 
+    <script>
+        window.onload = function() {
+            fetch('/make_data')
+                .then(response => response.json())
+                .then(data => {
+                    // 取得したデータを処理して表示
+                    const dataframe = document.getElementById('dataframe');
+                    // データをテーブル形式に整形して表示
+                    dataframe.innerHTML = "<table><thead><tr><th>Timestamp</th><th>force1</th><th>force2</th><th>force3</th><th>accel_x</th><th>accel_y</th><th>accel_z</th><th>gyro_x</th><th>gyro_y</th><th>gyro_z</th></tr></thead><tbody>";
+                    data.forEach(row => {
+                        dataframe.innerHTML += `<tr><td>${row.Timestamp}</td><td>${row.force1}</td><td>${row.force2}</td><td>${row.force3}</td><td>${row.accel_x}</td><td>${row.accel_y}</td><td>${row.accel_z}</td><td>${row.gyro_x}</td><td>${row.gyro_y}</td><td>${row.gyro_z}</td></tr>`;
+                    });
+                    dataframe.innerHTML += "</tbody></table>";
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
 
 </head>
 <body>
     <div class="top">
-        <h1>結果発表</h1>
+        <h1>テスト</h1>
         <div id="rank-display"></div>
     </div>
 
     <div class="main">
-        <div id="loader" class="loader" style="display: none;"></div>
-        <div id="rank-image-S" class="ranking" style="display: flex;">
-            <div class="pltrank">
-                <p>あなたの職人ランクは・・・</p>
-                <img src="{{url_for('static',filename='images/ranking/rankS.png')}}" alt="S" class="rankimg" >
-            </div>
-
-            <div class="left">
-                <div class="box">
-                    <div class="balloon2">
-                        <div class="text">
-                            とてもよく頑張ったね！<br>
-                            フライパン職人への道は<br>
-                            まだまだこれから！<br>
-                            <br>
-                            リベンジ待っているよ！
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mokemoke_S">
-                    <img src="{{url_for('static',filename='images/ranking/moke_S.png')}}" alt="moke_S" class="mokemoke_S" >
-                </div>
-            </div>
-        </div>
+        <p id="dataframe"></p>
     </div>
     
     <div class="bottom">

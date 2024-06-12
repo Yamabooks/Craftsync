@@ -5,69 +5,15 @@
     <title>result</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/result.css')}}">
 
-    <script>
-        // JavaScriptでJSONデータを取得し、HTMLに表示する
-        window.onload = function() {
-            // ローディング時間（ミリ秒単位で指定）
-            const loadingTime = 3000;
-
-            function showResult(){
-                // ランクを取得するためのAjaxリクエストを送信
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/analyze_data');
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById('loader').style.display = 'none';
-
-                        // レスポンスからランクを取得し、HTMLに表示
-                        var responseData = JSON.parse(xhr.responseText);
-                        var rank = responseData.rank;
-                        
-                        // 応答がSの場合
-                        if (rank === 'S') {
-                            document.getElementById('rank-image-S').style.display = 'flex';
-                            console.log('応答はSです。');
-                        }
-                        // 応答がAの場合
-                        else if (rank === 'A') {
-                            document.getElementById('rank-image-A').style.display = 'flex';
-                            console.log('応答はAです。');
-                        }
-                        // 応答がBの場合
-                        else if (rank === 'B') {
-                            document.getElementById('rank-image-B').style.display = 'flex';
-                            console.log('応答はBです。');
-                        }
-                        // 応答がCの場合
-                        else if (rank === 'C') {
-                            document.getElementById('rank-image-C').style.display = 'flex';
-                            console.log('応答はCです。');
-                        }
-                        // 応答がDの場合
-                        else if (rank === 'D') {
-                            document.getElementById('rank-image-D').style.display = 'flex';
-                            console.log('応答はDです。');
-                        }
-                        // 上記以外の場合
-                        else {
-                            // 何らかのデフォルトのアクションを実行するか、エラー処理を行う
-                            console.log('不明な応答です。');
-                        }
-                    }
-                };
-                xhr.send();
-            }
-            // 一定時間後にコンテンツを表示
-            setTimeout(showResult, loadingTime);
-            nextButton.style.display='block';
-        };
-    </script>
-
-
 </head>
 <body>
     <div class="top">
         <h1>結果発表</h1>
+        <audio id="mokemokevoice_D" src="{{url_for('static',filename='mokemokevoice/Dpage.wav')}}"></audio>
+        <audio id="mokemokevoice_C" src="{{url_for('static',filename='mokemokevoice/Cpage.wav')}}"></audio>
+        <audio id="mokemokevoice_B" src="{{url_for('static',filename='mokemokevoice/Bpage.wav')}}"></audio>
+        <audio id="mokemokevoice_A" src="{{url_for('static',filename='mokemokevoice/Apage.wav')}}"></audio>
+        <audio id="mokemokevoice_S" src="{{url_for('static',filename='mokemokevoice/Spage.wav')}}"></audio>
     </div>
 
     <div class="main">
@@ -205,5 +151,88 @@
             <a href="{{url_for('result2')}}" class="btn btn__3d-border" id="nextButton" style="display: none;">次へ進む</a>
         </div>
     </div>
+
+    <script>
+        // JavaScriptでJSONデータを取得し、HTMLに表示する
+        window.onload = function() {
+            // ローディング時間（ミリ秒単位で指定）
+            const loadingTime = 3000;
+
+            function showResult(){
+                // ランクを取得するためのAjaxリクエストを送信
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/analyze_data');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        document.getElementById('loader').style.display = 'none';
+
+                        // レスポンスからランクを取得し、HTMLに表示
+                        var responseData = JSON.parse(xhr.responseText);
+                        var rank = responseData.rank;
+
+                        // 応答がSの場合
+                        if (rank === 'S') {
+                            document.getElementById('rank-image-S').style.display = 'flex';
+                            console.log('応答はSです。');
+
+                            setTimeout(function() {
+                                var audio = document.getElementById('mokemokevoice_' + rank);
+                                audio.play();
+                            }, 1500);
+                        }
+                        // 応答がAの場合
+                        else if (rank === 'A') {
+                            document.getElementById('rank-image-A').style.display = 'flex';
+                            console.log('応答はAです。');
+
+                            setTimeout(function() {
+                                var audio = document.getElementById('mokemokevoice_' + rank);
+                                audio.play();
+                            }, 1500);
+                        }
+                        // 応答がBの場合
+                        else if (rank === 'B') {
+                            document.getElementById('rank-image-B').style.display = 'flex';
+                            console.log('応答はBです。');
+
+                            setTimeout(function() {
+                                var audio = document.getElementById('mokemokevoice_' + rank);
+                                audio.play();
+                            }, 1500);
+                        }
+                        // 応答がCの場合
+                        else if (rank === 'C') {
+                            document.getElementById('rank-image-C').style.display = 'flex';
+                            console.log('応答はCです。');
+
+                            setTimeout(function() {
+                                var audio = document.getElementById('mokemokevoice_' + rank);
+                                audio.play();
+                            }, 1500);
+                        }
+                        // 応答がDの場合
+                        else if (rank === 'D') {
+                            document.getElementById('rank-image-D').style.display = 'flex';
+                            console.log('応答はDです。');
+
+                            setTimeout(function() {
+                                var audio = document.getElementById('mokemokevoice_' + rank);
+                                audio.play();
+                            }, 1500);
+                        }
+                        // 上記以外の場合
+                        else {
+                            // 何らかのデフォルトのアクションを実行するか、エラー処理を行う
+                            console.log('不明な応答です。');
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            // 一定時間後にコンテンツを表示
+            setTimeout(showResult, loadingTime);
+            nextButton.style.display='block';
+        };
+    </script>
 </body>
 </html>

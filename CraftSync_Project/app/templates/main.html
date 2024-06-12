@@ -13,12 +13,12 @@
         <div class="header">
             <h1>Craft Quest</h1>
             <p>藤田金属株式会社ステージ</p>
+            <audio id="mokemokevoice" src="{{url_for('static',filename='mokemokevoice/2page.wav')}}"></audio>
         </div>
     </div>
 
 
     <div class="main">
-
         <div class="mokemoke">
             <img src="{{url_for('static',filename='images/mokemoke_leftup.png')}}" alt="mokemoke">
         </div>
@@ -41,5 +41,15 @@
             <a href="{{url_for('check')}}" class="btn btn__3d-border">次へ進む</a>
     </div>
 </div>
+
+<script>
+    window.onload = function() {
+        setTimeout(function() {
+            var audio = document.getElementById('mokemokevoice');
+            audio.play();
+        }, 2000);
+    }
+</script>
+
 </body>
 </html>

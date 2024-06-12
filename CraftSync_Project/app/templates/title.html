@@ -13,12 +13,29 @@
     </div>
     <div class="mid">
         <h1>Craft Quest</h1>
+        <audio id="mokemokevoice" src="{{url_for('static',filename='mokemokevoice/1page.wav')}}"></audio>
     </div>
     <div class="bottom">
         <div class="button">
-            <a href="{{url_for('main')}}" class="btn-text-3d">START</a>
+            <a href="#" id='startButton' class="btn-text-3d">START</a>
         </div>
     </div>
 
+    <script>
+        document.getElementById("startButton").addEventListener("click", function(event) {
+            event.preventDefault(); // 通常のリンク動作を防ぐ
+
+            // 音声を再生
+            var audio = document.getElementById("mokemokevoice");
+            audio.play().catch(function(error) {
+                console.log("自動再生がブロックされました: ", error);
+            });
+
+            // 1秒後にページ遷移
+            setTimeout(function() {
+                window.location.href = "{{url_for('main')}}"; // 1秒後に遷移
+            }, 2000);
+        });
+    </script>
 </body>
 </html>

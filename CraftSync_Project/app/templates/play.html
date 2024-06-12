@@ -39,6 +39,7 @@
 <body>
     <div class="top">
         <h1>【取り付け】★★☆☆☆</h1>
+        <audio id="mokemokevoice" src="{{url_for('static',filename='mokemokevoice/6page.wav')}}"></audio>
     </div>
 
     <div class="main">
@@ -73,5 +74,14 @@
             <a href="{{url_for('result')}}" class="btn btn__3d-border" id="nextButton" style="display: none;">次へ進む</a>
         </div>
     </div>
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                var audio = document.getElementById('mokemokevoice');
+                audio.play();
+            }, 2000);
+        }
+    </script>
 </body>
 </html>

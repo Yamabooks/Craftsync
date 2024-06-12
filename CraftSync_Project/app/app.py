@@ -115,20 +115,26 @@ def analyze_data():
         end_time = session.get('end_time')
 
         # 日付文字列をdatetimeオブジェクトに変換
-        start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")
-        end_time = datetime.strptime(end_time, "%Y-%d-%m %H:%M:%S")
+        #start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")
+        #end_time = datetime.strptime(end_time, "%Y-%d-%m %H:%M:%S")
+
+        print('start_time1',start_time)
 
         # 日付列をdatetime型に変換
         df['Timestamp'] = pd.to_datetime(df['Timestamp'])
 
+        print(df)
+
+        # 実機に接続時はこのコードを消すこと
         if start_time not in df['Timestamp'].values or end_time not in df['Timestamp'].values:
             start_time = '2024-06-12 13:51:30'
-            end_time = '2024-06-12 13:51:40'
+            end_time = '2024-06-12 13:51:39'
 
             # 日付文字列をdatetimeオブジェクトに変換
             start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")
             end_time = datetime.strptime(end_time, "%Y-%d-%m %H:%M:%S") 
-
+        else:
+            print('データが存在しません')
 
         # 時間範囲でデータをフィルタリング
         df = df[(df['Timestamp'] >= start_time) & (df['Timestamp'] <= end_time)]

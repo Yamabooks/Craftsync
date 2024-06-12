@@ -346,6 +346,14 @@ def find_table():
     sensor_table = session.get(sensor_name)
     return jsonify(sensor_table)
 
+@app.route('/delete_file')
+def delete_file():
+    file_path = os.path.join(app.root_path, "static/data", "data.xlsx")
+
+    os.remove(file_path)
+    print('dataファイルが削除されました')
+
+    return jsonify(file_path)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

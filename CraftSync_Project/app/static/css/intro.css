@@ -3,26 +3,26 @@ body{
   background-image: url('../images/intro.jpg'); /* 画像のパスを指定 */
   background-size: cover; /* 画像をウィンドウ全体にカバーさせる */
   background-position: top; /* 画像の位置を中央に設定 */
-  /* 他の背景プロパティを設定することもできます */
+  height: 100vh;
 }
 .top{
-  height: 200px; 
+  height: 15vh; 
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 .main{
-  height: 450px; 
+  height: 75vh; 
   display: flex;
   justify-content: center;
 }
 .bottom{
-  height: 130px;  
+  height: 10vh;
 }
 .button {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 a{
   text-decoration:none;/*リンクのアンダーラインを非表示*/

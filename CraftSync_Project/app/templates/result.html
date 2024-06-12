@@ -59,6 +59,7 @@
             }
             // 一定時間後にコンテンツを表示
             setTimeout(showResult, loadingTime);
+            nextButton.style.display='block';
         };
     </script>
 
@@ -67,7 +68,6 @@
 <body>
     <div class="top">
         <h1>結果発表</h1>
-        <div id="rank-display"></div>
     </div>
 
     <div class="main">
@@ -202,9 +202,7 @@
     
     <div class="bottom">
         <div class = "button">
-            <a class="btn2 btn__3d-border2" id="runscript" onclick="executeScript()" style="display: none;">結果を表示</a>
-
-            <a href="{{url_for('score')}}" class="btn btn__3d-border" id="nextButton" style="display: block;">次へ進む</a>
+            <a href="{{url_for('result2')}}" class="btn btn__3d-border" id="nextButton" style="display: none;">次へ進む</a>
         </div>
     </div>
 </body>

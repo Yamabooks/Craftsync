@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>result</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/result.css')}}">
+
+    <script>
+        // JavaScriptでJSONデータを取得し、HTMLに表示する
+        window.onload = function() {
+            // ローディング時間（ミリ秒単位で指定）
+            const loadingTime = 3000;
+
+            function showResult(){
+                // ランクを取得するためのAjaxリクエストを送信
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/analyze_data');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        document.getElementById('loader').style.display = 'none';
+
+                        // レスポンスからランクを取得し、HTMLに表示
+                        var responseData = JSON.parse(xhr.responseText);
+                        var rank = responseData.rank;
+                        
+                        // 応答がSの場合
+                        if (rank === 'S') {
+                            document.getElementById('rank-image-S').style.display = 'flex';
+                            console.log('応答はSです。');
+                        }
+                        // 応答がAの場合
+                        else if (rank === 'A') {
+                            document.getElementById('rank-image-A').style.display = 'flex';
+                            console.log('応答はAです。');
+                        }
+                        // 応答がBの場合
+                        else if (rank === 'B') {
+                            document.getElementById('rank-image-B').style.display = 'flex';
+                            console.log('応答はBです。');
+                        }
+                        // 応答がCの場合
+                        else if (rank === 'C') {
+                            document.getElementById('rank-image-C').style.display = 'flex';
+                            console.log('応答はCです。');
+                        }
+                        // 応答がDの場合
+                        else if (rank === 'D') {
+                            document.getElementById('rank-image-D').style.display = 'flex';
+                            console.log('応答はDです。');
+                        }
+                        // 上記以外の場合
+                        else {
+                            // 何らかのデフォルトのアクションを実行するか、エラー処理を行う
+                            console.log('不明な応答です。');
+                        }
+                    }
+                };
+                xhr.send();
+            }
+            // 一定時間後にコンテンツを表示
+            setTimeout(showResult, loadingTime);
+        };
+    </script>
+
+
+</head>
+<body>
+    <div class="top">
+        <h1>結果発表</h1>
+    </div>
+
+    <div class="main">
+        <div class="graph">
+            <img src="{{url_for('static',filename='images/graph/AI_evaluation_results.png')}}" alt="AIグラフ">
+        </div>
+    </div>
+    
+    <div class="bottom">
+        <div class = "button">
+            <a class="btn2 btn__3d-border2" id="runscript" onclick="executeScript()" style="display: none;">結果を表示</a>
+
+            <a href="{{url_for('score')}}" class="btn btn__3d-border" id="nextButton" style="display: block;">次へ進む</a>
+        </div>
+    </div>
+</body>
+</html>

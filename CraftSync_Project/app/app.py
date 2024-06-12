@@ -52,12 +52,17 @@ def play():
 def result():
     return render_template('result.html')
 
+# [/]へアクセスがあった場合、"result2.html"を返す
+@app.route('/result22')
+def result2():
+    return render_template('result2.html')
+
 # [/]へアクセスがあった場合、"score.html"を返す
 @app.route('/score')
 def score():
     return render_template('score.html')
 
-# [/]へアクセスがあった場合、"end.html"を返す
+# [/]へアクセスがあった場合、"score2.html"を返す
 @app.route('/score2')
 def score2():
     return render_template('score2.html', sensor_rank=session.get('sensor_rank_df'))
@@ -88,9 +93,6 @@ def get_end_time():
     # エンド時刻を取得
     end_time = datetime.now()
 
-    # 1秒を加える
-    end_time += timedelta(seconds=1)
-
     end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
     print("終了時刻:", end_time)
 
@@ -119,6 +121,15 @@ def analyze_data():
         # 日付列をdatetime型に変換
         df['Timestamp'] = pd.to_datetime(df['Timestamp'])
 
+        if start_time not in df['Timestamp'].values or end_time not in df['Timestamp'].values:
+            start_time = '2024-06-12 13:51:30'
+            end_time = '2024-06-12 13:51:40'
+
+            # 日付文字列をdatetimeオブジェクトに変換
+            start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")
+            end_time = datetime.strptime(end_time, "%Y-%d-%m %H:%M:%S") 
+
+
         # 時間範囲でデータをフィルタリング
         df = df[(df['Timestamp'] >= start_time) & (df['Timestamp'] <= end_time)]
 
@@ -127,13 +138,13 @@ def analyze_data():
         print('フォーマット後：',df)
 
         # データを新しいファイルに書き込み
-        file_path = os.path.join(app.root_path, "static/data", "テストデータ.xlsx")
+        file_path = os.path.join(app.root_path, "static/data", "体験者データ.xlsx")
         df.to_excel(file_path, index=False)
 
         return None
 
     # 最新データの作成
-    #make_data()
+    make_data()
 
     # データの読み込み
     craftsman_file_path = os.path.join(app.root_path, "static/data", "職人データ.xlsx")

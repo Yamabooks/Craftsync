@@ -100,8 +100,6 @@ def get_end_time():
     return jsonify({'end_time': end_time})
 
 
-
-
 @app.route('/analyze_data')
 
 def analyze_data():
@@ -113,12 +111,6 @@ def analyze_data():
 
         start_time = session.get('start_time')
         end_time = session.get('end_time')
-
-        print(start_time)
-        print(end_time)
-
-        start_time = '2024-06-12 13:51:30'
-        end_time = '2024-06-12 13:51:40'
 
         # 日付文字列をdatetimeオブジェクトに変換
         start_time = datetime.strptime(start_time, "%Y-%d-%m %H:%M:%S")

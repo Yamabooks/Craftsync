@@ -1,7 +1,7 @@
 body{
     
   background-image: url('../images/none.png'); /* 画像のパスを指定 */
-  background-size: ; /* 画像をウィンドウ全体にカバーさせる */
+  background-size:cover; /* 画像をウィンドウ全体にカバーさせる */
   background-position: top; /* 画像の位置を中央に設定 */
   /* 他の背景プロパティを設定することもできます */
 }

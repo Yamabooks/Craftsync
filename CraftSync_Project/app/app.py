@@ -123,7 +123,7 @@ def analyze_data():
         # 日付列をdatetime型に変換
         df['Timestamp'] = pd.to_datetime(df['Timestamp'])
 
-        print(df)
+        # print(df)
 
         # 実機に接続時はこのコードを消すこと
         if start_time not in df['Timestamp'].values or end_time not in df['Timestamp'].values:
@@ -144,7 +144,8 @@ def analyze_data():
 
         # 新しいフォーマットで日付を表示
         df['Timestamp'] = pd.to_datetime(df['Timestamp']).dt.strftime("%m/%d/%Y, %H:%M:%S")
-        print('フォーマット後：',df)
+        print('フォーマット後：')
+        print(df)
 
         # データを新しいファイルに書き込み
         file_path = os.path.join(app.root_path, "static/data", "体験者データ.xlsx")

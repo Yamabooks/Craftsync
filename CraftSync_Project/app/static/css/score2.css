@@ -20,10 +20,6 @@ body{
     justify-content: center;
     align-items: center;
 }
-.sensor_rank,
-#sensor-info {
-    flex: 1; /* 幅を均等に分配 */
-}
 
 .bottom{
     height: 15vh;

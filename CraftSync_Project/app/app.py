@@ -127,7 +127,7 @@ def analyze_data():
 
         # 実機に接続時はこのコードを消すこと
         if start_time not in df['Timestamp'].values or end_time not in df['Timestamp'].values:
-            start_time = '2024-06-12 13:51:30'
+            start_time = '2024-06-6 13:56:02'
             end_time = '2024-06-12 13:51:39'
 
             # 日付文字列をdatetimeオブジェクトに変換
@@ -137,7 +137,10 @@ def analyze_data():
             print('データが存在しません')
 
         # 時間範囲でデータをフィルタリング
-        df = df[(df['Timestamp'] >= start_time) & (df['Timestamp'] <= end_time)]
+        # df = df[(df['Timestamp'] >= start_time) & (df['Timestamp'] <= end_time)]
+        df = df[(df['Timestamp'] >= start_time)]
+
+        df = df.head(10)
 
         # 新しいフォーマットで日付を表示
         df['Timestamp'] = pd.to_datetime(df['Timestamp']).dt.strftime("%m/%d/%Y, %H:%M:%S")
